@@ -1,0 +1,90 @@
+.header{
+background-color: #e5ab0ce3;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: row;
+min-height: 60px;   /* min- вместо жёсткой height */
+padding: 10px 0;
+border-radius: 40px;
+}
+
+.header:hover{
+background-color: #f4cb5ad3;
+
+}
+
+.header-nav{
+    display: flex;
+    gap: 20px;
+    background-color: rgb(250, 176, 4);
+    border-radius: 40px;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;           /* растягиваем на всю ширину header */
+    margin: 0 20px;
+}
+.header-nav a{
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 14px;
+    white-space: nowrap;
+    font-family: "Bitter", serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;  
+    transition: background-color 0.2s;
+    color: #000;
+}
+.header-nav a:hover{
+
+    background-color: #f3eca1;
+}
+
+
+html{
+    background-color: rgb(46, 24, 1);
+    color: #e9e4af;
+}
+
+.animal{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.animal-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.animal-image img{
+    width: 400px;
+    height: 400px;
+    margin: 10px;
+    border-radius: 40px;
+  
+}
+.animal-image img:hover{
+    width: 470px;
+    height: 470px;
+   
+  
+}
+.animal-image-description p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;   /* ограничиваем ширину, чтобы строки не растягивались на весь экран */
+    margin: 20px auto;
+}
+
+.footer{
+    background-color: rgb(250, 176, 4);
+    display: flex;
+    justify-content: center;
+}
