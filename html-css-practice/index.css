@@ -87,4 +87,6 @@ html{
     background-color: rgb(250, 176, 4);
     display: flex;
     justify-content: center;
+    border-radius: 40px;
+    height: 40px;
 }
