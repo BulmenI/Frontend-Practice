@@ -1,0 +1,99 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header h1{
+    display: flex;
+   
+    
+}
+.add-card-form {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 20px;
+    background: #f5b301;
+    border: 3px solid #1a1a1a;
+    border-radius: 4px;
+    width: 400px;
+    height: 220px;
+    margin: 16px auto;
+}
+
+.add-card-form input {
+    padding: 10px 12px;
+    border: 2px solid #1a1a1a;
+    border-radius: 2px;
+    background: #ffffff;
+    font-size: 14px;
+    width: 220px;
+}
+
+.add-card-form button {
+    padding: 10px 16px;
+    border: 2px solid #1a1a1a;
+    border-radius: 2px;
+    background: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    border: 3px solid #1a1a1a;
+    border-radius: 4px;
+    font-size: 14px;
+    list-style: none;
+}
+
+.card button {
+    padding: 4px 10px;
+    border: 2px solid #1a1a1a;
+    border-radius: 2px;
+    background: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.card button:hover {
+    background: #f5b301;
+}
+
+.main{
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: #f0f0f0;
+    border: 3px solid #1a1a1a;
+    border-radius: 4px;
+    margin: 8px;
+    min-height: 500px; 
+}
+
+.column-title {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.column-list {
+    flex: 1;
+    min-height: 100px; 
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

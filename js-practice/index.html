@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS practice</title>
-    <script src="htmlLogic.js"></script>
+    <script  async ="htmlLogic.js"></script>
+    <style>
+    #field {
+      position: relative;          /* чтобы мяч позиционировался внутри */
+      width: 600px;
+      height: 400px;
+      background: green;
+      border: 10px solid black;
+      margin: 20px auto;
+      overflow: hidden;           /* мяч не вылезает визуально, даже если ограничение не сработает */
+      cursor: pointer;
+    }
+
+    #ball {
+      position: absolute;
+      width: 50px;                /* можно менять */
+      height: 50px;               /* можно менять */
+      background: red;
+      border-radius: 50%;
+      transition: left 0.3s ease, top 0.3s ease;  /* плавная анимация */
+    }
+  </style>
 </head>
 <body>
      <div>Пользователи:</div>
@@ -80,6 +101,195 @@
 
   <input type="button" onclick="clockStart()" value="Старт">
   <input type="button" onclick="clockStop()" value="Стоп">
+  <button id="button"></button>
+  <div id="text"> Скртыьбб</div>
 
+  <div id="field"></div>
+  <div id="ball"></div>
+
+
+  <div class="menu-span" id="menu">
+    <ul>
+      <li>Пирожное</li>
+      <li>Пончик</li>
+      <li>Мед</li>
+    </ul>
+  </div>
+
+
+  <div>
+    Код кнопки (возможно вам нужно будет изменить CSS):
+  <button class="remove-button">[x]</button>
+  <div>
+    <div class="pane-horse">
+      <h3>Лошадь</h3>
+      <button class="remove-button" id="horse-btn">[x]</button>
+      <p>Домашняя лошадь — животное семейства непарнокопытных, одомашненный и единственный сохранившийся подвид дикой лошади, вымершей в дикой природе, за исключением небольшой популяции лошади Пржевальского.</p>
+    </div>
+    <div class="pane-donkey">
+      <h3>Осёл</h3>
+      <button class="remove-button" id="donkey-btn">[x]</button>
+      <p>Домашний осёл (лат. Equus asinus asinus), или ишак, — одомашненный подвид дикого осла (Equus asinus), сыгравший важную историческую роль в развитии хозяйства и культуры человека и по-прежнему широко в хозяйстве многих развивающихся стран.</p>
+    </div>
+    <div class="pane-cat">
+      <h3>Кошка</h3>
+      <button class="remove-button" id="cat-btn">[x]</button>
+      <p>Кошка, или домашняя кошка (лат. Felis silvestris catus), — домашнее животное, одно из наиболее популярных(наряду с собакой) «животных-компаньонов». Являясь одиночным охотником на грызунов и других мелких животных, кошка — социальное животное, использующее для общения широкий диапазон звуковых сигналов.</p>
+    </div>
+  </div>
+  </div>
+  <div id="carousel" class="carousel">
+    <button class="arrow prev">⇦</button>
+    <div class="gallery">
+      <ul>
+        <li><img src="https://ru.js.cx/carousel/1.png"></li>
+        <li><img src="https://ru.js.cx/carousel/2.png"></li>
+        <li><img src="https://ru.js.cx/carousel/3.png"></li>
+        <li><img src="https://ru.js.cx/carousel/4.png"></li>
+        <li><img src="https://ru.js.cx/carousel/5.png"></li>
+        <li><img src="https://ru.js.cx/carousel/6.png"></li>
+        <li><img src="https://ru.js.cx/carousel/7.png"></li>
+        <li><img src="https://ru.js.cx/carousel/8.png"></li>
+        <li><img src="https://ru.js.cx/carousel/9.png"></li>
+        <li><img src="https://ru.js.cx/carousel/10.png"></li>
+      </ul>
+    </div>
+    <button class="arrow next">⇨</button>
+  </div>
+
+  <ul class="tree" id="tree">
+    <li class="parent">Животные
+      <ul>
+        <li class="parent-li">Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li class="parent-li" >Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="parent">Рыбы
+      <ul>
+        <li class="parent-li">Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li class="parent-li">Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <table id="grid">
+  <thead>
+    <tr>
+      <th data-type="number">Возраст</th>
+      <th data-type="string">Имя</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5</td>
+      <td>Вася</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Петя</td>
+    </tr>
+    ...
+  </tbody>
+</table>
+
+<script>
+  function handler(e) {
+    alert( "..." );
+    return false;
+    e.preventDefault();
+  }
+</script>
+
+<a href="https://w3.org" onclick="(e) => handler(e)">браузер откроет w3.org</a>
+
+
+<p><img id="largeImg" src="https://en.js.cx/gallery/img1-lg.jpg" alt="Large image"></p>
+
+  <ul id="thumbs">
+    <!-- the browser shows a small built-in tooltip on hover with the text from "title" attribute -->
+    <li>
+      <a href="https://en.js.cx/gallery/img2-lg.jpg" title="Image 2"><img src="https://en.js.cx/gallery/img2-thumb.jpg"></a>
+    </li>
+    <li>
+      <a href="https://en.js.cx/gallery/img3-lg.jpg" title="Image 3"><img src="https://en.js.cx/gallery/img3-thumb.jpg"></a>
+    </li>
+    <li>
+      <a href="https://en.js.cx/gallery/img4-lg.jpg" title="Image 4"><img src="https://en.js.cx/gallery/img4-thumb.jpg"></a>
+    </li>
+    <li>
+      <a href="https://en.js.cx/gallery/img5-lg.jpg" title="Image 5"><img src="https://en.js.cx/gallery/img5-thumb.jpg"></a>
+    </li>
+    <li>
+      <a href="https://en.js.cx/gallery/img6-lg.jpg" title="Image 6"><img src="https://en.js.cx/gallery/img6-thumb.jpg"></a>
+    </li>
+  </ul>
+  <script>
+     const thumbs = document.getElementById('thumbs');
+    const largeImg = document.getElementById('largeImg');
+
+    // Делегируем клик на список
+    thumbs.addEventListener('click', function(e) {
+      // Находим ближайшую ссылку (клик может быть по img или по a)
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      // Отменяем переход по ссылке
+      e.preventDefault();
+
+      // Меняем основное изображение на href ссылки
+      const newSrc = link.href;
+      if (newSrc) {
+        largeImg.src = newSrc;
+      }
+    });
+  </script>
+  <div id="test">
+  <p data-tooltip="Это подсказка для первого абзаца">Наведи на меня</p>
+  <p data-tooltip="Другой текст подсказки">И на меня тоже</p>
+</div>
+
+<div id="description" class="tooltip"></div>
+
+ <div id="matrix">
+    <script>
+      for (let i = 0; i < 2000; i++) document.writeln(i)
+    </script>
+  </div>
+
+  <div id="arrowTop"></div>
+
+  <select id="genres">
+  <option value="rock">Рок</option>
+  <option value="blues" selected>Блюз</option>
+</select>
+<script>
+    const form = [...genres.options];
+    alert(form[0]);
+    alert(form[1]);
+    const option = new Option("Классика","classic");
+    genres.append(option);
+    option.selected = true;
+</script>
 </body>
 </html>
