@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="canban.png">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js" defer></script>
+    <script src="stats.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header-div">
+            <h1>СТАТИСТИКА</h1>
+        <a class="navigation" href="index.html">Обратно</a>
+        </div>
+        
+    </header>
+    <main class="statisticsMain">
+        <div class="tools">
+            <div class="statisticsSelect">
+              <span>Выборка задач по приоритетам</span>
+              <select   id="select">
+            <option value="todo">TODO</option>
+            <option value="inProgress">IN PROGRESS</option>
+            <option value="done">DONE</option>
+              </select>
+            </div>
+            <div class="inputDate">
+                <span>Выборка задач на определенную дату</span>
+                <input class="inputDate" type="date" id="dateInput">
+            </div>
+        </div>
+        <div class="diagramms">
+            <div id="priorityChart" style="width: 500px; height: 350px;"></div>
+            <div id="chart" style="width: 800px; height: 600px;"></div>
+            <div id="dateChart" style="width: 500px; height: 350px;"></div>
+        </div>
+    </main>
+</body>
+</html>

@@ -3,19 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="canban.png">
     <title>Canban Desk</title>
     <script src="index.js" defer></script>
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header id="header" class="header">
-        <h1>Моя доска</h1>
-        <form id ="form" class="add-card-form">
+        <h1>МОЯ ДОСКА</h1>
+        <button id="openModal" class="createTask">Создать задачу</button>
+        <a class="navigation" href="stats.html">Статистика</a>
+        <!-- <form id ="form" class="add-card-form">
             <input id = "input" type="text" name="title" placeholder="Название Задачи" required>
             <button type="submit">Добавить задачу</button>
 
-        </form>
+        </form> -->
     </header>
+    <dialog id="modal" class="modal">
+        <form id ="form" method="dialog" class="add-card-form">
+            <input id = "input"  type="text" name="title" placeholder="Название Задачи" required>
+            <input id="inputTimeStart" type="date" name="timeStart">
+            <input id="inputTimeEnd"  type="date" name="timeEnd">
+        <select id="inputPriority" name="priority">
+            <option value="low">Низкий</option>
+            <option value="medium" selected>Средний</option>
+            <option value="high">Высокий</option>
+        </select>
+            <div class="modalBtn">
+                <button type="submit">Добавить задачу</button>
+                <button type="button" id="closeBtn">Отмена</button>
+            </div>
+        </form>
+    </dialog>
     <main id="main" class="main">
         <section id="toDo" class="column">
             <h2 class="column-title">TO DO</h2>

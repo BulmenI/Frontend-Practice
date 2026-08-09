@@ -1,11 +1,23 @@
 const input = document.getElementById("input");
+const inputStartTime = document.getElementById("inputTimeStart");
+const inputEndTime = document.getElementById("inputTimeEnd");
 const inputForm = document.getElementById("form");
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const main = document.getElementById("main");
+const modal = document.getElementById("modal");
+const openModal = document.getElementById("openModal");
+const closeModal = document.getElementById("closeBtn");
+const inputPriority = document.getElementById("inputPriority");
 const STATUS = {
     TODO:"todo",
     IN_PROGRESS:"inProgress",
     DONE:"done"
+}
+
+const PRIORITY = {
+    low: "Низкий",
+    medium: "Средний",
+    high: "Высокий",
 }
     tasks.forEach(task => {
         renderTasks(task);
@@ -26,24 +38,50 @@ inputForm.addEventListener("submit", (event) => {
     const task = {
         id:Date.now(),
         text:input.value,
+        timeStart:inputStartTime.value,
+        timeEnd:inputEndTime.value,
+        priority: inputPriority.value,
         status:STATUS.TODO,
     }
+
     tasks.push(task);
     saveTasks(tasks);
     renderTasks(task);
+
     input.value = "";
+    inputStartTime.value = "";
+    inputEndTime.value = "";
+
 
 });
 
+openModal.addEventListener("click", ()=> {
+    modal.showModal();
+
+});
+closeModal.addEventListener("click", ()=> {
+    modal.close();
+
+});
 function createTask(task){
 
     const li = document.createElement("li");
     li.classList.add("card"); 
+    li.dataset.taskId = task.id;
+    const text = document.createElement("span");
+    text.textContent = `Задача: ${task.text}`;
+    text.classList.add("card-text");
     const button = document.createElement("button");
     button.textContent ="X";
-    li.textContent = task.text;
-    li.dataset.taskId = task.id;
-    li.appendChild(button);
+    const time = document.createElement("span");
+    time.classList.add("card-time");
+    time.textContent =`Время выполнения ${task.timeStart} | ${task.timeEnd}`; 
+
+    const priority = document.createElement("span");
+    priority.classList.add("card-priority", `priority-${task.priority}`); 
+    priority.textContent =`Приоритет: ${PRIORITY[task.priority]}`;
+    
+    li.append(text, time, priority, button);
     return li;
 
 }
@@ -62,12 +100,12 @@ function renderTasks(task) {
 }
 
 main.addEventListener("click", (event) => {
-        if(!event.target.closest("button")) return;
-    const li = event.target.closest("li");
-        if(!li) return;
+    if(!event.target.closest("button")) return;
+  const li = event.target.closest("li");
+    if(!li) return;
   const liId = parseInt(li.dataset.taskId);
   const index = tasks.findIndex((task) => task.id === liId);
-        tasks.splice(index, 1);
+    tasks.splice(index, 1);
     saveTasks(tasks);
     li.remove();
 })
