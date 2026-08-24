@@ -360,3 +360,630 @@ export default function List() {
     </article>
   );
 }
+
+
+import { useState, useRef } from 'react';
+
+ function Chat() {
+  const [text, setText] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const timer = useRef(null);
+  
+  let timeoutID = null;
+
+  function handleSend() {
+    setIsSending(true);
+    timer.current = setTimeout(() => {
+      alert('Sent!');
+      setIsSending(false);
+    }, 3000);
+  }
+
+  function handleUndo() {
+    setIsSending(false);
+    clearTimeout(timer.current);
+  }
+
+  return (
+    <>
+      <input
+        disabled={isSending}
+        value={text}
+        onChange={e => setText(e.target.value)}
+      />
+      <button
+        disabled={isSending}
+        onClick={handleSend}>
+        {isSending ? 'Sending...' : 'Send'}
+      </button>
+      {isSending &&
+        <button onClick={handleUndo}>
+          Undo
+        </button>
+      }
+    </>
+  );
+}
+
+
+
+import { useState, useRef } from 'react';
+
+export default function Toggle() {
+  const [status, setStatus] = useState(false);
+
+  return (
+    <button onClick={() => {
+      setStatus(prev => !prev)
+    }}>
+      {status ? 'On' : 'Off'}
+    </button>
+  );
+}
+
+import { useRef } from 'react';
+
+let timeoutID;
+
+function DebouncedButton({ onClick, children }) {
+  const timer = useRef(null);
+  return (
+    <button onClick={() => {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        onClick();
+      }, 1000);
+    }}>
+      {children}
+    </button>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <>
+      <DebouncedButton
+        onClick={() => alert('Spaceship launched!')}
+      >
+        Launch the spaceship
+      </DebouncedButton>
+      <DebouncedButton
+        onClick={() => alert('Soup boiled!')}
+      >
+        Boil the soup
+      </DebouncedButton>
+      <DebouncedButton
+        onClick={() => alert('Lullaby sung!')}
+      >
+        Sing a lullaby
+      </DebouncedButton>
+    </>
+  )
+}
+
+import { useState, useRef } from 'react';
+
+export default function Chat() {
+  const [text, setText] = useState('');
+  const savedText = useRef(null);
+  function setExampleText(e) {
+    setText(e);
+    savedText.current = e;
+  }
+  function handleSend() {
+    setTimeout(() => {
+      alert('Sending: ' + savedText.current);
+    }, 3000);
+  }
+
+  return (
+    <>
+      <input
+        value={text}
+        onChange={e => setExampleText(e.target.value)}
+      />
+      <button
+        onClick={handleSend}>
+        Send
+      </button>
+    </>
+  );
+}
+import { useState, useRef } from 'react';
+
+export default function VideoPlayer() {
+  const video = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function handleClick() {
+    const nextIsPlaying = !isPlaying;
+    setIsPlaying(nextIsPlaying);
+    if(isPlaying){
+      video.current.play();
+    }else{
+      video.current.pause();
+    }
+    
+  }
+   
+  return (
+    <>
+      <button onClick={handleClick}>
+        {isPlaying ? 'Pause' : 'Play'}
+      </button>
+      <video ref ={video} width="250">
+        <source
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </>
+  )
+}
+
+import {useRef} from "react";
+export default function Page() {
+  const ref = useRef(null);
+  ref.current.focus();
+  return (
+    <>
+      <nav>
+        <button>Search</button>
+      </nav>
+      <input
+        placeholder="Looking for something?"
+        ref={ref}
+      />
+    </>
+  );
+}
+
+import { useState, useRef } from 'react';
+
+export default function CatFriends() {
+  const [index, setIndex] = useState(0);
+  const ref1 =useRef(null);
+
+  
+  return (
+    <>
+      <nav>
+        <button onClick={() => {
+          if (index < catList.length - 1) {
+            setIndex(index + 1);
+          } else {
+            setIndex(0);
+          }
+      ref1.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+          }); 
+        }}>
+          Next
+        </button>
+      </nav>
+      <div>
+        <ul>
+          {catList.map((cat, i) => (
+            <li key={cat.id}>
+              <img
+                ref ={ref1}
+                className={
+                  index === i ?
+                    'active' :
+                    ''
+                }
+                src={cat.imageUrl}
+                alt={'Cat #' + cat.id}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+const catList = [];
+for (let i = 0; i < 10; i++) {
+  catList.push({
+    id: i,
+    imageUrl: 'https://loremflickr.com/250/200/cat?lock=' + i
+  });
+}
+
+import { useEffect, useRef } from 'react';
+
+export default function MyInput({ shouldFocus, value, onChange }) {
+  const ref = useRef(null);
+
+  // TODO: вызывайте focus() только если shouldFocus равно true.
+  useEffect(() => {
+    if(shouldFocus === true){
+      ref.current.focus();
+    }
+    
+  }, [shouldFocus]);
+
+  return (
+    <input
+      ref={ref}
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+import { useState, useEffect } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    function onTick() {
+      setCount(c => c + 1);
+      
+    }
+
+    const timer = setInterval(onTick, 1000);
+
+     return () => clearInterval(timer);
+  }, []);
+
+  return <h1>{count}</h1>;
+}
+
+import { useState, useEffect } from 'react';
+import { fetchBio } from './api.js';
+
+export default function Page() {
+  const [person, setPerson] = useState('Alice');
+  const [bio, setBio] = useState(null);
+
+  useEffect(() => {
+    let status = false;
+    setBio(null);
+    fetchBio(person).then(result => {
+      if(!status) setBio(result);
+      
+      return () => status = true
+    });
+  }, [person]);
+
+  return (
+    <>
+      <select value={person} onChange={e => {
+        setPerson(e.target.value);
+      }}>
+        <option value="Alice">Alice</option>
+        <option value="Bob">Bob</option>
+        <option value="Taylor">Taylor</option>
+      </select>
+      <hr />
+      <p><i>{bio ?? 'Загрузка...'}</i></p>
+    </>
+  );
+}
+import { useState, useEffect } from 'react';
+
+export default function Form() {
+  const [showForm, setShowForm] = useState(true);
+  const [message, setMessage] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setShowForm(false);
+    sendMessage(message);
+  }
+
+  if (!showForm) {
+    return (
+      <>
+        <h1>Thanks for using our services!</h1>
+        <button onClick={() => {
+          setMessage('');
+          setShowForm(true);
+        }}>
+          Open chat
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <textarea
+        placeholder="Message"
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      />
+      <button type="submit" disabled={message === ''}>
+        Send
+      </button>
+    </form>
+  );
+}
+
+function sendMessage(message) {
+  console.log('Sending message: ' + message);
+}
+
+import { useState, useEffect } from 'react';
+
+export default function App() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [canMove, setCanMove] = useState(true);
+
+  useEffect(() => {
+    function handleMove(e) {
+      if (canMove) {
+        setPosition({ x: e.clientX, y: e.clientY });
+      }
+    }
+    window.addEventListener('pointermove', handleMove);
+    return () => window.removeEventListener('pointermove', handleMove);
+  }, [canMove]);
+
+  return (
+    <>
+      <label>
+        <input type="checkbox"
+          checked={canMove}
+          onChange={e => setCanMove(e.target.checked)} 
+        />
+        The dot is allowed to move
+      </label>
+      <hr />
+      <div style={{
+        position: 'absolute',
+        backgroundColor: 'pink',
+        borderRadius: '50%',
+        opacity: 0.6,
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        pointerEvents: 'none',
+        left: -20,
+        top: -20,
+        width: 40,
+        height: 40,
+      }} />
+    </>
+  );
+}
+import { useState, useEffect } from 'react';
+import { fetchData } from './api.js';
+
+export default function Page() {
+  const [planetList, setPlanetList] = useState([])
+  const [planetId, setPlanetId] = useState('');
+
+  const [placeList, setPlaceList] = useState([]);
+  const [placeId, setPlaceId] = useState('');
+
+  useEffect(() => {
+    let ignore = false;
+    fetchData('/planets').then(result => {
+      if (!ignore) {
+        console.log('Fetched a list of planets.');
+        setPlanetList(result);
+        setPlanetId(result[0].id); 
+      }
+    });
+    return () => {
+      ignore = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (planetId === '') {
+      
+      return;
+    }
+
+    let ignore = false;
+    fetchData('/planets/' + planetId + '/places').then(result => {
+      if (!ignore) {
+        console.log('Fetched a list of places on "' + planetId + '".');
+        setPlaceList(result);
+        setPlaceId(result[0].id); 
+      }
+    });
+    return () => {
+      ignore = true;
+    }
+  }, [planetId]);
+
+  return (
+    <>
+      <label>
+        Pick a planet:{' '}
+        <select value={planetId} onChange={e => {
+          setPlanetId(e.target.value);
+        }}>
+          {planetList.map(planet =>
+            <option key={planet.id} value={planet.id}>{planet.name}</option>
+          )}
+        </select>
+      </label>
+      <label>
+        Pick a place:{' '}
+        <select value={placeId} onChange={e => {
+          setPlaceId(e.target.value);
+        }}>
+          {placeList.map(place =>
+            <option key={place.id} value={place.id}>{place.name}</option>
+          )}
+        </select>
+      </label>
+      <hr />
+      <p>You are going to: {placeId || '???'} on {planetId || '???'} </p>
+    </>
+  );
+}
+
+import { useState, useEffect } from 'react';
+
+export default function Timer() {
+  const [count, setCount] = useState(0);
+  const [increment, setIncrement] = useState(1);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount(c => c + increment);
+    }, 1000);
+    return () => {
+      clearInterval(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [increment]);
+
+  return (
+    <>
+      <h1>
+        Counter: {count}
+        <button onClick={() => setCount(0)}>Reset</button>
+      </h1>
+      <hr />
+      <p>
+        Every second, increment by:
+        <button disabled={increment === 0} onClick={() => {
+          setIncrement(i => i - 1);
+        }}>–</button>
+        <b>{increment}</b>
+        <button onClick={() => {
+          setIncrement(i => i + 1);
+        }}>+</button>
+      </p>
+    </>
+  );
+}
+import { useState, useEffect } from 'react';
+import { experimental_useEffectEvent as useEffectEvent } from 'react';
+import { createConnection, sendMessage } from './chat.js';
+import { showNotification } from './notifications.js';
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId, theme }) {
+  const onConnected = useEffectEvent(connectedRoomId => {
+    showNotification('Welcome to ' + connectedRoomId, theme);
+  });
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      setTimeout(() => {
+        onConnected(roomId);
+      }, 2000);
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+
+  return <h1>Welcome to the {roomId} room!</h1>
+}
+
+export default function App() {
+  const [roomId, setRoomId] = useState('general');
+  const [isDark, setIsDark] = useState(false);
+  return (
+    <>
+      <label>
+        Choose the chat room:{' '}
+        <select
+          value={roomId}
+          onChange={e => setRoomId(e.target.value)}
+        >
+          <option value="general">general</option>
+          <option value="travel">travel</option>
+          <option value="music">music</option>
+        </select>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={isDark}
+          onChange={e => setIsDark(e.target.checked)}
+        />
+        Use dark theme
+      </label>
+      <hr />
+      <ChatRoom
+        roomId={roomId}
+        theme={isDark ? 'dark' : 'light'}
+      />
+    </>
+  );
+}
+
+import { useState, useEffect } from 'react';
+
+export default function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log('✅ Creating an interval');
+    const id = setInterval(() => {
+      console.log('⏰ Interval tick');
+      setCount( prev => prev + 1);
+    }, 1000);
+    return () => {
+      console.log('❌ Clearing an interval');
+      clearInterval(id);
+    };
+  }, [count]);
+
+  return <h1>Counter: {count}</h1>
+}
+import { useEffect } from 'react';
+import { createConnection } from './chat.js';
+
+export default function ChatRoom({ options }) {
+  const { roomId, serverUrl } = options;
+  useEffect(() => {
+    const connectionObject = createConnection({
+      roomId: roomId,
+      serverUrl: serverUrl
+    });
+    connectionObject.connect();
+    return () => connectionObject.disconnect();
+  }, [roomId, serverUrl]);
+
+  return <h1>Welcome to the {options.roomId} room!</h1>;
+}
+
+// Write your custom Hook in this file!
+export function useCounter(){
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount(c => c + 1);
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return count
+}
+
+export function useDebounce (value, time){
+
+  const [debounceValue, setDebounceValue] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebounceValue(value);
+    }, time);
+    return () => clearTimeout(id);
+  }, [value, time]); 
+}
+
+function useInterval(tick, time) {
+  useEffect(() => {
+    const id = setInterval(tick, time);
+    return () => clearInterval(id);
+  }, [tick, time]);
+}
+ function useInterval(callback, delay) {
+  const tick = useEffectEvent(callback);
+  useEffect(() => {
+    const id = setInterval(tick, delay);
+    return () => clearInterval(id);
+  }, [delay]);
+}
