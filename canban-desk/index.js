@@ -35,6 +35,10 @@ inputForm.addEventListener("submit", (event) => {
 
     console.log(input.value);
 
+    if(inputEndTime.value < inputStartTime.value){
+        alert("Время окончания не может быть меньше времени начала");
+        return;
+    }
     const task = {
         id:Date.now(),
         text:input.value,
@@ -100,6 +104,7 @@ function renderTasks(task) {
 }
 
 main.addEventListener("click", (event) => {
+    confirm("Вы уверены, что хотите удалить задачу?") ? null : event.preventDefault();
     if(!event.target.closest("button")) return;
   const li = event.target.closest("li");
     if(!li) return;
