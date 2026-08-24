@@ -21,9 +21,13 @@
     </header>
     <dialog id="modal" class="modal">
         <form id ="form" method="dialog" class="add-card-form">
-            <input id = "input"  type="text" name="title" placeholder="Название Задачи" required>
+            <p>Введите название задачи</p>
+            <input id = "input"  type="text" name="title" required>
+            <p>Введите начальное время</p>
             <input id="inputTimeStart" type="date" name="timeStart">
+            <p>Введите конечное время</p>
             <input id="inputTimeEnd"  type="date" name="timeEnd">
+            <p>Выберите приоритет</p>
         <select id="inputPriority" name="priority">
             <option value="low">Низкий</option>
             <option value="medium" selected>Средний</option>

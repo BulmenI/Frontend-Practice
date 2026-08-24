@@ -159,8 +159,8 @@
 
 
 [data-action="todo"] .card {
-    background: #fde8e8;
-    border-color: #d32f2f;
+    background: #686565;
+    border-color: #c6c3c3;
 }
 
 [data-action="inProgress"] .card {
