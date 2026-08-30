@@ -7,6 +7,11 @@ const dateInput = document.getElementById("dateInput");
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const dateChartDom = document.getElementById("dateChart");
 const dateChart = echarts.init(dateChartDom);
+const STATUS_COLORS = {
+    todo: "#686565",
+    inProgress: "#f5b301",
+    done: "#388e3c",
+};
 const statusCounts = {
     todo:{
         value:0,
@@ -67,13 +72,13 @@ dateInput.addEventListener("change", (event) =>{
                 type: 'pie',
                 top: 60,
                 data:allResults === 0 ? [] : [
-                    { name: 'To Do', value: dateForPie.todo },
-                    { name: 'In Progress', value: dateForPie.inProgress },
-                    { name: 'Done', value: dateForPie.done },
+                    { name: 'To Do', value: dateForPie.todo,itemStyle: { color: STATUS_COLORS.todo } },
+                    { name: 'In Progress', value: dateForPie.inProgress,itemStyle: { color: STATUS_COLORS.inProgress } },
+                    { name: 'Done', value: dateForPie.done,itemStyle: { color: STATUS_COLORS.done } },
                 ],
                 emptyCircleStyle: {
-                    color: '#ccc',
-                    borderColor: '#ccc',
+                    color: '#010101',
+                    borderColor: '#090909',
                     borderWidth: 1,
                 },
             }
@@ -106,13 +111,13 @@ select.addEventListener("change", (event) =>{
                 type: 'pie',
                 top: 60,
                 data: allResults === 0 ? [] : [
-                    { name: 'Low', value: data.low },
-                    { name: 'Medium', value: data.medium },
-                    { name: 'High', value: data.high },
+                    { name: 'Low', value: data.low, itemStyle: { color: STATUS_COLORS.low } },
+                    { name: 'Medium', value: data.medium, itemStyle: { color: STATUS_COLORS.medium } },
+                    { name: 'High', value: data.high, itemStyle: { color: STATUS_COLORS.high } },
                 ],
                 emptyCircleStyle: {
-                    color: '#ccc',
-                    borderColor: '#ccc',
+                    color: '#030303',
+                    borderColor: '#000000',
                     borderWidth: 1,
                 },
             }
@@ -135,13 +140,13 @@ const option = {
         {
             type: 'pie',
             data: totalTasks === 0 ? [] : [
-                { name: 'To Do', value: statusCounts.todo.value },
-                { name: 'In Progress', value: statusCounts.inProgress.value },
-                { name: 'Done', value: statusCounts.done.value },
+                { name: 'To Do', value: statusCounts.todo.value, itemStyle: { color: STATUS_COLORS.todo } },
+                { name: 'In Progress', value: statusCounts.inProgress.value, itemStyle: { color: STATUS_COLORS.inProgress } },
+                { name: 'Done', value: statusCounts.done.value, itemStyle: { color: STATUS_COLORS.done } },
             ],
             emptyCircleStyle: {
-                    color: '#ccc',
-                    borderColor: '#ccc',
+                    color: '#070707',
+                    borderColor: '#121111',
                     borderWidth: 1,
                 },
         }
