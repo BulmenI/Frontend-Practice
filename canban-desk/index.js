@@ -77,9 +77,9 @@ closeTimeLogicModal.addEventListener("click", () => {
 
 function createTask(task) {
 
-    const li = document.createElement("li");
-    li.classList.add("card");
-    li.dataset.taskId = task.id;
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.taskId = task.id;
 
     const text = document.createElement("span");
     text.textContent = `Задача: ${task.text}`;
@@ -101,8 +101,8 @@ function createTask(task) {
     priority.classList.add("card-priority", `priority-${task.priority}`);
     priority.textContent = `Приоритет: ${PRIORITY[task.priority]}`;
 
-    li.append(text, time, priority, button);
-    return li;
+    card.append(text, time, priority, button);
+    return card;
 }
 
 confirmDeleteBtn.addEventListener("click", () => {
@@ -114,71 +114,71 @@ confirmDeleteBtn.addEventListener("click", () => {
         saveTasks(tasks);
     }
 
-    const li = document.querySelector(`[data-task-id="${taskId}"]`);
-    if (li) li.remove();
+    const card = document.querySelector(`[data-task-id="${taskId}"]`);
+    if (card) card.remove();
 
     taskId = null;
     deleteModal.close();
 });
 
 function renderTasks(task) {
-    const li = createTask(task);
-    let targetUl;
+    const card = createTask(task);
+    let targetColumn;
     if (task.status === STATUS.TODO) {
-        targetUl = document.getElementById("toDoUl");
+        targetColumn = document.getElementById("toDoUl");
     } else if (task.status === STATUS.IN_PROGRESS) {
-        targetUl = document.getElementById("inProgressUl");
+        targetColumn = document.getElementById("inProgressUl");
     } else if (task.status === STATUS.DONE) {
-        targetUl = document.getElementById("doneUl");
+        targetColumn = document.getElementById("doneUl");
     }
-    targetUl.append(li);
+    targetColumn.append(card);
 }
 
 function dragAndDrop() {
-    let currentLi;
+    let currentCard;
     let offsetX;
     let offsetY;
 
     function onMouseMove(event) {
-        currentLi.style.left = (event.clientX - offsetX) + "px";
-        currentLi.style.top = (event.clientY - offsetY) + "px";
+        currentCard.style.left = (event.clientX - offsetX) + "px";
+        currentCard.style.top = (event.clientY - offsetY) + "px";
     }
 
     function onMouseUp(event) {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
 
-        const ul = event.target.closest("ul");
-        if (ul) {
-            const task = tasks.find((task) => task.id === parseInt(currentLi.dataset.taskId));
+        const column = event.target.closest(".column-list");
+        if (column) {
+            const task = tasks.find((task) => task.id === parseInt(currentCard.dataset.taskId));
             if (task) {
-                task.status = ul.dataset.action;
+                task.status = column.dataset.action;
             }
             saveTasks(tasks);
-            ul.append(currentLi);
+            column.append(currentCard);
         }
 
-        currentLi.style.position = "";
-        currentLi.style.left = "";
-        currentLi.style.top = "";
-        currentLi.style.pointerEvents = "";
-        currentLi = null;
+        currentCard.style.position = "";
+        currentCard.style.left = "";
+        currentCard.style.top = "";
+        currentCard.style.pointerEvents = "";
+        currentCard = null;
     }
 
     main.addEventListener("mousedown", (event) => {
         event.preventDefault();
         if (event.target.closest("button")) return;
 
-        const targetLi = event.target.closest("li");
-        if (!targetLi) return;
+        const targetCard = event.target.closest(".card");
+        if (!targetCard) return;
 
-        const cardCoord = targetLi.getBoundingClientRect();
+        const cardCoord = targetCard.getBoundingClientRect();
         offsetX = event.clientX - cardCoord.left;
         offsetY = event.clientY - cardCoord.top;
 
-        currentLi = targetLi;
-        targetLi.style.position = "absolute";
-        targetLi.style.pointerEvents = "none";
+        currentCard = targetCard;
+        targetCard.style.position = "absolute";
+        targetCard.style.pointerEvents = "none";
 
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
