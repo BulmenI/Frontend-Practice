@@ -51,6 +51,8 @@ dateInput.addEventListener("change", (event) =>{
     selectedDate.forEach((task) => {
         dateForPie[task.status]++;
     });
+    
+    const allResults = dateForPie.todo + dateForPie.inProgress + dateForPie.done;
 
     const dateOption = {
         title: {
@@ -64,22 +66,32 @@ dateInput.addEventListener("change", (event) =>{
             {
                 type: 'pie',
                 top: 60,
-                data: [
+                data:allResults === 0 ? [] : [
                     { name: 'To Do', value: dateForPie.todo },
                     { name: 'In Progress', value: dateForPie.inProgress },
                     { name: 'Done', value: dateForPie.done },
-                ]
+                ],
+                emptyCircleStyle: {
+                    color: '#ccc',
+                    borderColor: '#ccc',
+                    borderWidth: 1,
+                },
             }
         ]
     };
 
-    dateChart.setOption(dateOption);
+    dateChart.setOption(dateOption, true);
 
 
 });
+
 select.addEventListener("change", (event) =>{
+
    const selectedStatus = select.value; 
-    const data = statusCounts[selectedStatus];  
+   const data = statusCounts[selectedStatus];  
+
+   const allResults = data.low + data.medium + data.high;
+   
 
     const option = {
         title: {
@@ -93,18 +105,25 @@ select.addEventListener("change", (event) =>{
             {
                 type: 'pie',
                 top: 60,
-                data: [
+                data: allResults === 0 ? [] : [
                     { name: 'Low', value: data.low },
                     { name: 'Medium', value: data.medium },
                     { name: 'High', value: data.high },
-                ]
+                ],
+                emptyCircleStyle: {
+                    color: '#ccc',
+                    borderColor: '#ccc',
+                    borderWidth: 1,
+                },
             }
         ]
     };
 
-    priority.setOption(option);
+    priority.setOption(option, true);
 
 });
+
+const totalTasks = statusCounts.todo.value + statusCounts.inProgress.value + statusCounts.done.value;
 
 const option = {
     title: {
@@ -115,13 +134,18 @@ const option = {
     series: [
         {
             type: 'pie',
-            data: [
+            data: totalTasks === 0 ? [] : [
                 { name: 'To Do', value: statusCounts.todo.value },
                 { name: 'In Progress', value: statusCounts.inProgress.value },
                 { name: 'Done', value: statusCounts.done.value },
-            ]
+            ],
+            emptyCircleStyle: {
+                    color: '#ccc',
+                    borderColor: '#ccc',
+                    borderWidth: 1,
+                },
         }
-    ]
+    ],
 };
 
-pieChart.setOption(option);
+pieChart.setOption(option, true);

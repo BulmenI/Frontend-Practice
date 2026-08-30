@@ -5,13 +5,20 @@ const inputForm = document.getElementById("form");
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const main = document.getElementById("main");
 const modal = document.getElementById("modal");
+const timeLogicModal = document.getElementById("timeLogicModal");
+const deleteModal = document.getElementById("deleteConfirmationModal");
+const confirmDeleteBtn = document.getElementById("confirmDelete");
+const closeTimeLogicModal = document.getElementById("closeTimeLogicModal");
 const openModal = document.getElementById("openModal");
 const closeModal = document.getElementById("closeBtn");
 const inputPriority = document.getElementById("inputPriority");
+
+let taskId = null;
+
 const STATUS = {
-    TODO:"todo",
-    IN_PROGRESS:"inProgress",
-    DONE:"done"
+    TODO: "todo",
+    IN_PROGRESS: "inProgress",
+    DONE: "done"
 }
 
 const PRIORITY = {
@@ -19,13 +26,13 @@ const PRIORITY = {
     medium: "Средний",
     high: "Высокий",
 }
-    tasks.forEach(task => {
-        renderTasks(task);
-    });
 
+tasks.forEach(task => {
+    renderTasks(task);
+});
 
+dragAndDrop();
 
-  dragAndDrop();
 function saveTasks(arr) {
     localStorage.setItem("tasks", JSON.stringify(arr));
 }
@@ -33,19 +40,18 @@ function saveTasks(arr) {
 inputForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    console.log(input.value);
-
-    if(inputEndTime.value < inputStartTime.value){
-        alert("Время окончания не может быть меньше времени начала");
+    if (inputEndTime.value < inputStartTime.value) {
+        timeLogicModal.showModal();
         return;
     }
+
     const task = {
-        id:Date.now(),
-        text:input.value,
-        timeStart:inputStartTime.value,
-        timeEnd:inputEndTime.value,
+        id: Date.now(),
+        text: input.value,
+        timeStart: inputStartTime.value,
+        timeEnd: inputEndTime.value,
         priority: inputPriority.value,
-        status:STATUS.TODO,
+        status: STATUS.TODO,
     }
 
     tasks.push(task);
@@ -55,40 +61,65 @@ inputForm.addEventListener("submit", (event) => {
     input.value = "";
     inputStartTime.value = "";
     inputEndTime.value = "";
-
-
 });
 
-openModal.addEventListener("click", ()=> {
+openModal.addEventListener("click", () => {
     modal.showModal();
-
 });
-closeModal.addEventListener("click", ()=> {
+
+closeModal.addEventListener("click", () => {
     modal.close();
-
 });
-function createTask(task){
+
+closeTimeLogicModal.addEventListener("click", () => {
+    timeLogicModal.close();
+});
+
+function createTask(task) {
 
     const li = document.createElement("li");
-    li.classList.add("card"); 
+    li.classList.add("card");
     li.dataset.taskId = task.id;
+
     const text = document.createElement("span");
     text.textContent = `Задача: ${task.text}`;
     text.classList.add("card-text");
+
     const button = document.createElement("button");
-    button.textContent ="X";
+    button.textContent = "X";
+
+    button.addEventListener("click", () => {
+        taskId = parseInt(task.id);
+        deleteModal.showModal();
+    });
+
     const time = document.createElement("span");
     time.classList.add("card-time");
-    time.textContent =`Время выполнения ${task.timeStart} | ${task.timeEnd}`; 
+    time.textContent = `Время выполнения ${task.timeStart} | ${task.timeEnd}`;
 
     const priority = document.createElement("span");
-    priority.classList.add("card-priority", `priority-${task.priority}`); 
-    priority.textContent =`Приоритет: ${PRIORITY[task.priority]}`;
-    
+    priority.classList.add("card-priority", `priority-${task.priority}`);
+    priority.textContent = `Приоритет: ${PRIORITY[task.priority]}`;
+
     li.append(text, time, priority, button);
     return li;
-
 }
+
+confirmDeleteBtn.addEventListener("click", () => {
+    if (taskId === null) return;
+
+    const index = tasks.findIndex((task) => task.id === taskId);
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        saveTasks(tasks);
+    }
+
+    const li = document.querySelector(`[data-task-id="${taskId}"]`);
+    if (li) li.remove();
+
+    taskId = null;
+    deleteModal.close();
+});
 
 function renderTasks(task) {
     const li = createTask(task);
@@ -103,18 +134,6 @@ function renderTasks(task) {
     targetUl.append(li);
 }
 
-main.addEventListener("click", (event) => {
-    confirm("Вы уверены, что хотите удалить задачу?") ? null : event.preventDefault();
-    if(!event.target.closest("button")) return;
-  const li = event.target.closest("li");
-    if(!li) return;
-  const liId = parseInt(li.dataset.taskId);
-  const index = tasks.findIndex((task) => task.id === liId);
-    tasks.splice(index, 1);
-    saveTasks(tasks);
-    li.remove();
-})
-
 function dragAndDrop() {
     let currentLi;
     let offsetX;
@@ -125,27 +144,26 @@ function dragAndDrop() {
         currentLi.style.top = (event.clientY - offsetY) + "px";
     }
 
-   function onMouseUp(event) {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
+    function onMouseUp(event) {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
 
-    const ul = event.target.closest("ul");
-    if (ul) {
-        const task = tasks.find((task) => task.id === parseInt(currentLi.dataset.taskId));
-        if (task) {
-            task.status = ul.dataset.action;
+        const ul = event.target.closest("ul");
+        if (ul) {
+            const task = tasks.find((task) => task.id === parseInt(currentLi.dataset.taskId));
+            if (task) {
+                task.status = ul.dataset.action;
+            }
+            saveTasks(tasks);
+            ul.append(currentLi);
         }
-        saveTasks(tasks);
-        ul.append(currentLi);
-    }
 
-    console.log(currentLi);
-    currentLi.style.position = "";
-    currentLi.style.left = "";
-    currentLi.style.top = "";
-    currentLi.style.pointerEvents = ""; 
-    currentLi = null;
-}
+        currentLi.style.position = "";
+        currentLi.style.left = "";
+        currentLi.style.top = "";
+        currentLi.style.pointerEvents = "";
+        currentLi = null;
+    }
 
     main.addEventListener("mousedown", (event) => {
         event.preventDefault();
@@ -166,4 +184,3 @@ function dragAndDrop() {
         document.addEventListener("mouseup", onMouseUp);
     });
 }
-

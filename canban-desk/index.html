@@ -39,6 +39,16 @@
             </div>
         </form>
     </dialog>
+    <dialog class ="modal" id="timeLogicModal">
+        <p id="timeLogicModalText">Время окончания задачи не может быть меньше времени начала задачи</p>
+        <button id="closeTimeLogicModal" class="modalBtn">Закрыть</button>
+    </dialog>
+    <dialog id="deleteConfirmationModal" class="modal">
+        <p>Вы уверены, что хотите удалить задачу?</p>
+        <div class="modalBtn">
+            <button id="confirmDelete" class="modalBtn">Да</button>
+        </div>
+    </dialog>
     <main id="main" class="main">
         <section id="toDo" class="column">
             <h2 class="column-title">TO DO</h2>
