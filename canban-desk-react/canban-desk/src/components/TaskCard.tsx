@@ -3,9 +3,11 @@ import  type {Task} from "../types/types";
 type TaskCardProps = {
     task:Task;
     onDragStart?: (taskID: number) => void;
+    onDelete?: (taskID: number) => void;
+    onEdit?: (taskID: number) => void;
 }
 
-function TaskCard({task, onDragStart}:TaskCardProps) {
+function TaskCard({task, onDragStart, onDelete, onEdit}:TaskCardProps) {
 
     return(
         <div
@@ -19,6 +21,8 @@ function TaskCard({task, onDragStart}:TaskCardProps) {
             <p>End: {task.endTime}</p>
             {task.priority && <p>Priority: {task.priority}</p>}
             {task.status && <p>Status: {task.status}</p>}
+            <button type="button" onClick={()=> onEdit?.(task.id)}>Edit</button>
+            <button type="button" onClick={()=> onDelete?.(task.id)}>Delete</button>   
         </div>
     );
 }
