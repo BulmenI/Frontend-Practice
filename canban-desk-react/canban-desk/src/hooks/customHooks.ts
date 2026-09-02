@@ -80,6 +80,12 @@ export function useIndexedDb<T>() {
         const store = transaction.objectStore('todos');
         store.delete(id);
     }
+    async function getAll(){
+        const db = await openDb();
+        const transaction = db.transaction('todos', 'readonly');
+        const store = transaction.objectStore('todos');
+        return store.getAll();
+    }
 
-    return { add, get, update, remove };
+    return { add, get, update, remove, getAll };
 }
