@@ -56,35 +56,99 @@ export function useFetch(url:string) {
 
 export function useIndexedDb<T>() {
 
-    async function add(value:T) {
+    async function add(value: T): Promise<void> {
         const db = await openDb();
-        const transaction = db.transaction('todos', 'readwrite');
-        const store = transaction.objectStore('todos');
-        store.add(value);
+
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction("todos", "readwrite");
+            const store = transaction.objectStore("todos");
+
+            const request = store.add(value);
+
+            request.onsuccess = () => {
+                resolve();
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
     }
-    async function get(id:number) {
+
+    async function get(id: number): Promise<T | undefined> {
         const db = await openDb();
-        const transaction = db.transaction('todos', 'readonly');
-        const store = transaction.objectStore('todos');
-        return store.get(id);
+
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction("todos", "readonly");
+            const store = transaction.objectStore("todos");
+
+            const request = store.get(id);
+
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
     }
-    async function update(value:T,) {
+
+    async function update(value: T): Promise<void> {
         const db = await openDb();
-        const transaction = db.transaction('todos', 'readwrite');
-        const store = transaction.objectStore('todos');
-        store.put(value);
+
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction("todos", "readwrite");
+            const store = transaction.objectStore("todos");
+
+            const request = store.put(value);
+
+            request.onsuccess = () => {
+                resolve();
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
     }
-    async function remove(id:number) {
+
+    async function remove(id: number): Promise<void> {
         const db = await openDb();
-        const transaction = db.transaction('todos', 'readwrite');
-        const store = transaction.objectStore('todos');
-        store.delete(id);
+
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction("todos", "readwrite");
+            const store = transaction.objectStore("todos");
+
+            const request = store.delete(id);
+
+            request.onsuccess = () => {
+                resolve();
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
     }
-    async function getAll(){
+
+    async function getAll(): Promise<T[]> {
         const db = await openDb();
-        const transaction = db.transaction('todos', 'readonly');
-        const store = transaction.objectStore('todos');
-        return store.getAll();
+
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction("todos", "readonly");
+            const store = transaction.objectStore("todos");
+
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
     }
 
     return { add, get, update, remove, getAll };

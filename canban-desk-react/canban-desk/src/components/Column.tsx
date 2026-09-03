@@ -1,6 +1,7 @@
 import type { Task, Status } from "../types/types";
 import React from "react";
 import TaskCard from "./TaskCard";
+import '../styles/column.css';
 
 
 
@@ -9,9 +10,9 @@ type ColumnProps = {
     tasks:Task[];
     onDragOver:(e:React.DragEvent<HTMLDivElement>)=>void;
     onDrop:(e:React.DragEvent<HTMLDivElement>, status:Status)=>void;
-    onDragStart?: (taskID: number) => void;
-    onDelete?: (taskID: number) => void;
-    onEdit?: (taskID: number, name:string) => void;
+    onDragStart: (taskID: number) => void;
+    onDelete: (taskID: number) => void;
+    onEdit: (taskID: number, name:string) => void;
 }
 
     function Column({
@@ -32,7 +33,7 @@ type ColumnProps = {
         onDragOver={onDragOver}
         onDrop={(e) => onDrop(e,status)}
         >
-            {tasks.filter(task => task.status === status).map((task) =>(
+            {tasks.filter(task => task.status === status).map((task) => (
                 <TaskCard
                     key ={task.id}
                     task={task}
@@ -40,9 +41,7 @@ type ColumnProps = {
                     onDelete={onDelete}
                     onEdit={onEdit}
                 />
-            ))
-
-            }
+            ))}
         
         </div>
     );    

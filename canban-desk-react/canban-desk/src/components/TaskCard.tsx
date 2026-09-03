@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import type { Task } from "../types/types";
 
 type TaskCardProps = {
     task: Task;
-    onDragStart?: (taskID: number) => void;
-    onDelete?: (taskID: number) => void;
-    onEdit?: (taskID: number, value: string) => void;
+    onDragStart: (taskID: number) => void;
+    onDelete: (taskID: number) => void;
+    onEdit: (taskID: number, value: string) => void;
 };
 
 function TaskCard({
@@ -19,7 +19,7 @@ function TaskCard({
     const [value, setValue] = useState(task.name);
 
     function handleSave() {
-        onEdit?.(task.id, value);
+        onEdit(task.id, value);
         setIsEditing(false);
     }
 
@@ -27,7 +27,7 @@ function TaskCard({
         <div
             className="task-card"
             draggable={!isEditing}
-            onDragStart={() => onDragStart?.(task.id)}
+            onDragStart={() => onDragStart(task.id)}
         >
             {isEditing ? (
                 <>
@@ -69,12 +69,12 @@ function TaskCard({
 
             <button
                 type="button"
-                onClick={() => onDelete?.(task.id)}
+                onClick={() => onDelete(task.id)}
             >
                 Delete
             </button>
         </div>
     );
 }
-
-export default TaskCard;
+// todo: useCallback for onDelete and onEdit
+export default React.memo(TaskCard);

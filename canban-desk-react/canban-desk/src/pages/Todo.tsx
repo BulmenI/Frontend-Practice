@@ -4,7 +4,7 @@ import { useIndexedDb } from "../hooks/customHooks";
 import Column from "../components/Column";
 import Modal from "../components/Modal";
 import Input from "../components/Input";
-
+import '../styles/todo.css';
 
 const STATUS = {
     todo: "todo",
@@ -23,7 +23,7 @@ function Todo() {
     useEffect(() => {
         const fetchTasks = async () => {
             const tasks = await getAll();
-            setTaskList(tasks.result);
+            setTaskList(tasks);
         };
 
         fetchTasks();
@@ -33,8 +33,16 @@ function Todo() {
         setModalStatus(prev => !prev);
     }
 
+    async function onAdd(task: Task) {
+        await add(task);
+        setTaskList(prev => [...prev, task]);
+        setModalStatus(false);
+    }
+
+    //todo: useCallback for onDelete and onEdit
+
     async function onDelete(taskId: number) {
-        if ((await get(taskId)).result) {
+        if ((await get(taskId))) {
 
             await remove(taskId);
 
@@ -50,32 +58,23 @@ function Todo() {
    async function onEdit(taskId: number, value: string) {
     const result = await get(taskId);
 
-    if (!result.result) {
+    if (!result) {
         alert("Такой задачи нет");
         return;
     }
 
-    const editTask = taskList.find(
-        task => task.id === taskId
-    );
+    const editTask = taskList.find(task => task.id === taskId);
 
     if (!editTask) {
         alert("Такой задачи нет");
         return;
     }
 
-    const updatedTask: Task = {
-        ...editTask,
-        name: value,
-    };
+    const updatedTask: Task = {...editTask, name: value,};
 
     await update(updatedTask);
 
-    setTaskList(prev =>
-        prev.map(task =>
-            task.id === taskId ? updatedTask : task
-        )
-    );
+    setTaskList(prev =>prev.map(task => task.id === taskId ? updatedTask : task));
 }
 
     function onDragStart(taskId: number) {
@@ -91,9 +90,7 @@ function Todo() {
 
         if (draggedTaskId === null) return;
 
-        const task = taskList.find(
-            task => task.id === draggedTaskId
-        );
+        const task = taskList.find(task => task.id === draggedTaskId);
 
         if (!task) return;
         if (task.status === status) {
@@ -101,26 +98,17 @@ function Todo() {
             return;
         }
 
-        const updatedTask = {
-            ...task,
-            status: status,
-        };
+        const updatedTask = {...task, status: status,};
 
         await update(updatedTask);
 
-        setTaskList(prev =>
-            prev.map(task =>
-                task.id === draggedTaskId
-                    ? updatedTask
-                    : task
-            )
-        );
+        setTaskList(prev => prev.map(task => task.id === draggedTaskId ? updatedTask : task));
 
         setDraggedTaskId(null);
     }
 
     return (
-        <div className="todo">
+        <>
 
             <button onClick={isOpen}>
                 Add task
@@ -131,10 +119,10 @@ function Todo() {
                 onClose={() => setModalStatus(false)}
             >
                 <Input
-                    onAdd={add}
+                    onAdd={onAdd}
                 />
             </Modal>
-
+        <div className="todo">
             <Column
                 status={STATUS.todo}
                 tasks={taskList}
@@ -164,8 +152,8 @@ function Todo() {
                 onDelete={onDelete}
                 onEdit={onEdit}
             />
-
         </div>
+        </>
     );
 }
 

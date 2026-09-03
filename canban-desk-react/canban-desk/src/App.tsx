@@ -1,14 +1,13 @@
-import './App.css'
-import Todo from './pages/Todo'
+import './styles/app.css'
 import  AppRoutes  from './routes/AppRoutes'
 
 function App() {
 
 
   return (
-    <>
+    <div className="app">
       <AppRoutes />
-    </>
+    </div>
   )
 }
 

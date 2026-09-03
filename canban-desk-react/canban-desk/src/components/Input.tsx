@@ -1,61 +1,83 @@
 import { useState } from "react";
 import type { Task } from "../types/types";
+import '../styles/input.css';
 
 type InputProps = {
-    onAdd:(task:Task) => void
-}
+    onAdd: (task: Task) => void;
+};
 
-function Input({ onAdd }: InputProps){
+function Input({ onAdd }: InputProps) {
+    const [taskName, setTaskName] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [priority, setPriority] = useState("low");
 
-    const [taskName, setTaskName] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [priority, setPriority] = useState('low');
-   
-    
     function addTask() {
-        
-        const newTask:Task = {
-            id:Date.now(),
-            name:taskName,
-            startTime:startTime,
-            endTime:endTime,
-            priority:priority,
+        const newTask: Task = {
+            id: Date.now(),
+            name: taskName,
+            startTime,
+            endTime,
+            priority,
+            status: "todo",
         };
-        
-        onAdd(newTask);
 
+        onAdd(newTask);
     }
-    
+
     return (
-        <>
-        <p>Введите название задачи</p>
-        <input 
-        type="text"
-        placeholder="Название задачи"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-          />
-        <p>Введите начальное время</p>
-        <input 
-        type="datetime-local"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-         />
-        <p>Введите конечное время</p>
-        <input 
-        type="datetime-local"
-        value={endTime}
-        onChange={(e) => setEndTime(e.target.value)}
-         />
-        <p>Выберите приоритет </p>
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="low">Низкий</option>
-            <option value="medium">Средний</option>
-            <option value="high">Высокий</option>
-        </select>
-        <button type="button" onClick={addTask}>Добавить задачу</button>
-        </>
+        <div className="task-form">
+            <label className="task-form-field">
+                <span>Название задачи</span>
+
+                <input
+                    type="text"
+                    placeholder="Название задачи"
+                    value={taskName}
+                    onChange={(e) => setTaskName(e.target.value)}
+                />
+            </label>
+
+            <label className="task-form-field">
+                <span>Начальное время</span>
+
+                <input
+                    type="datetime-local"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                />
+            </label>
+
+            <label className="task-form-field">
+                <span>Конечное время</span>
+
+                <input
+                    type="datetime-local"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                />
+            </label>
+
+            <label className="task-form-field">
+                <span>Приоритет</span>
+
+                <select
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                >
+                    <option value="low">Низкий</option>
+                    <option value="medium">Средний</option>
+                    <option value="high">Высокий</option>
+                </select>
+            </label>
+
+            <button
+                type="button"
+                onClick={addTask}
+            >
+                Добавить задачу
+            </button>
+        </div>
     );
 }
 

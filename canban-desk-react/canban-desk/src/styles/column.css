@@ -1,0 +1,11 @@
+.column{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    min-width: 0;
+    min-height: 500px;
+    gap: 12px;
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}

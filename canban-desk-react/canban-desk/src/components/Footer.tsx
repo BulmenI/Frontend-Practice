@@ -1,11 +1,11 @@
-
+import "../styles/footer.css";
 
 function Footer(){
 
     return (
         <div className="footer">
 
-            <p>Зделано с ❤ и React</p>
+            <p>Сделано с ❤ и React</p>
 
         </div>
     );

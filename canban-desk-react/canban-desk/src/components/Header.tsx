@@ -3,15 +3,15 @@ import { Link } from "react-router";
 function Header() {
     return (
         <header className="header">
-            <div className="header__container">
+            <div>
 
-                <Link to="/" className="header__logo">
+                <Link to="/" className="header-logo">
                     Kanban Desk
                 </Link>
 
-                <nav className="header__nav">
+                <nav className="header-nav">
                     <Link to="/">Board</Link>
-                    <Link to="/about">About</Link>
+                    <Link to="/statistics">Statistics</Link>
                 </nav>
 
             </div>
