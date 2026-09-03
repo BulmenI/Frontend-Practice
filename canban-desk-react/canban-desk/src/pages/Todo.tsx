@@ -42,6 +42,7 @@ function Todo() {
     //todo: useCallback for onDelete and onEdit
 
     async function onDelete(taskId: number) {
+        // todo try catch
         if ((await get(taskId))) {
 
             await remove(taskId);
