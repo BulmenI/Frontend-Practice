@@ -1,14 +1,17 @@
 import { useState } from "react";
-import {useIndexedDb} from "../hooks/customHooks";
 import type { Task } from "../types/types";
 
-function Input(){
+type InputProps = {
+    onAdd:(task:Task) => void
+}
+
+function Input({ onAdd }: InputProps){
 
     const [taskName, setTaskName] = useState('');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [priority, setPriority] = useState('low');
-    const { add } = useIndexedDb();
+   
     
     function addTask() {
         
@@ -18,8 +21,9 @@ function Input(){
             startTime:startTime,
             endTime:endTime,
             priority:priority,
-        }
-        add(newTask);
+        };
+        
+        onAdd(newTask);
 
     }
     
@@ -50,7 +54,7 @@ function Input(){
             <option value="medium">Средний</option>
             <option value="high">Высокий</option>
         </select>
-        <button type="submit" onClick={addTask}>Добавить задачу</button>
+        <button type="button" onClick={addTask}>Добавить задачу</button>
         </>
     );
 }

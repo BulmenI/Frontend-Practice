@@ -32,8 +32,8 @@ function Modal({ isOpen, children, onClose }: ModalProps) {
 
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-close" onClick={onClose}>×</div>
+      <div className="modal-content" role="dialog" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>×</button>
         {children}
       </div>
     </div>,
