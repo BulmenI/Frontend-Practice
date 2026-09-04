@@ -2,7 +2,7 @@ import type { Task, Status } from "../types/types";
 import React from "react";
 import TaskCard from "./TaskCard";
 import '../styles/column.css';
-
+import { useDroppable } from "@dnd-kit/core";
 
 
 type ColumnProps = {
@@ -25,11 +25,12 @@ type ColumnProps = {
         onEdit
         }:ColumnProps){
 
-    
+        const{setNodeRef} = useDroppable({id:String(status)});
 
     return(
         <div 
         className="column"
+        ref={setNodeRef}
         onDragOver={onDragOver}
         onDrop={(e) => onDrop(e,status)}
         >

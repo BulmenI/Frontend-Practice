@@ -7,4 +7,5 @@ export type Task = {
     endTime:string;
     priority?:string;
     status?:Status;
+    position?:number;
 }

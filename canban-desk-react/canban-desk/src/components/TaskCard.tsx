@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { Input, Button } from "antd";
 import type { Task } from "../types/types";
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 type TaskCardProps = {
     task: Task;
@@ -17,6 +20,16 @@ function TaskCard({
 
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(task.name);
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+    } = useDraggable({id:String(task.id)});
+
+    const style = {
+    transform: CSS.Translate.toString(transform),
+    };
 
     function handleSave() {
         onEdit(task.id, value);
@@ -28,31 +41,39 @@ function TaskCard({
             className="task-card"
             draggable={!isEditing}
             onDragStart={() => onDragStart(task.id)}
+            style={style}
         >
+            <span
+                ref={setNodeRef}
+                {...attributes}
+                {...listeners}
+            >
+                ☰
+            </span>
             {isEditing ? (
                 <>
-                    <input
+                    <Input
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                     />
 
-                    <button
-                        type="button"
+                    <Button
+                        type="primary"
                         onClick={handleSave}
                     >
                         Save
-                    </button>
+                    </Button>
                 </>
             ) : (
                 <>
                     <h3>{task.name}</h3>
 
-                    <button
-                        type="button"
+                    <Button
+                        type="default"
                         onClick={() => setIsEditing(true)}
                     >
                         Edit
-                    </button>
+                    </Button>
                 </>
             )}
 
@@ -67,12 +88,12 @@ function TaskCard({
                 <p>Status: {task.status}</p>
             )}
 
-            <button
-                type="button"
+            <Button
+                type="default"
                 onClick={() => onDelete(task.id)}
             >
                 Delete
-            </button>
+            </Button>
         </div>
     );
 }

@@ -1,10 +1,12 @@
 import type { Task, Status } from "../types/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useIndexedDb } from "../hooks/customHooks";
+import { Button } from "antd";
 import Column from "../components/Column";
-import Modal from "../components/Modal";
-import Input from "../components/Input";
+import MainModal from "../components/MainModal";
+import InputValues from "../components/InputValues";
 import '../styles/todo.css';
+import { DndContext } from "@dnd-kit/core";
 
 const STATUS = {
     todo: "todo",
@@ -43,7 +45,9 @@ function Todo() {
 
     async function onDelete(taskId: number) {
         // todo try catch
-        if ((await get(taskId))) {
+        try{
+
+            if ((await get(taskId))) {
 
             await remove(taskId);
 
@@ -51,13 +55,20 @@ function Todo() {
                 prev.filter(task => task.id !== taskId)
             );
 
-        } else {
-            alert("Такой задачи нет");
         }
+        }catch(error:unknown){
+                if(error instanceof Error){
+                    console.log(error.message)
+                }
+
+        }
+        
     }
 
    async function onEdit(taskId: number, value: string) {
-    const result = await get(taskId);
+
+    try{
+        const result = await get(taskId);
 
     if (!result) {
         alert("Такой задачи нет");
@@ -76,6 +87,12 @@ function Todo() {
     await update(updatedTask);
 
     setTaskList(prev =>prev.map(task => task.id === taskId ? updatedTask : task));
+    }catch(error:unknown){
+      if(error instanceof Error){
+        console.log(error.message)
+        }
+    }
+    
 }
 
     function onDragStart(taskId: number) {
@@ -86,8 +103,9 @@ function Todo() {
         e.preventDefault();
     }
 
-    async function onDrop(e: React.DragEvent<HTMLDivElement>,status: Status) {
-        e.preventDefault();
+    async function onDrop(e: React.DragEvent<HTMLDivElement>, status: Status) {
+        try{
+            e.preventDefault();
 
         if (draggedTaskId === null) return;
 
@@ -106,23 +124,30 @@ function Todo() {
         setTaskList(prev => prev.map(task => task.id === draggedTaskId ? updatedTask : task));
 
         setDraggedTaskId(null);
+
+        }catch(error:unknown){
+          if(error instanceof Error){
+            console.log(error.message)
+            }
+        }
+        
     }
 
     return (
         <>
-
-            <button onClick={isOpen}>
+        <DndContext>
+            <Button onClick={isOpen}>
                 Add task
-            </button>
+            </Button>
 
-            <Modal
+            <MainModal
                 isOpen={modalStatus}
                 onClose={() => setModalStatus(false)}
             >
-                <Input
+                <InputValues
                     onAdd={onAdd}
                 />
-            </Modal>
+            </MainModal>
         <div className="todo">
             <Column
                 status={STATUS.todo}
@@ -154,6 +179,7 @@ function Todo() {
                 onEdit={onEdit}
             />
         </div>
+        </DndContext>
         </>
     );
 }

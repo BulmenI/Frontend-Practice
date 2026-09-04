@@ -1,4 +1,5 @@
 import '../styles/mainLoadingFallback.css';
+import { Alert } from 'antd';
 
 function MainLoadingFallback() {
 

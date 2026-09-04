@@ -1,5 +1,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, type ReactNode } from "react";
+import { Button } from "antd/es/radio";
+import { Modal } from "antd";
 import '../styles/modal.css';
 
 interface ModalProps {
@@ -8,7 +10,7 @@ interface ModalProps {
   onClose: () => void;
 }
 
-function Modal({ isOpen, children, onClose }: ModalProps) {
+function MainModal({ isOpen, children, onClose}: ModalProps) {
 
   useEffect(() => {
     if (!isOpen) return;
@@ -32,14 +34,14 @@ function Modal({ isOpen, children, onClose }: ModalProps) {
     }
 
   return createPortal(
-    <div className="modal-overlay" onClick={onClose}>
+    <Modal className="modal-overlay" footer ={null}  open={isOpen}>
       <div className="modal-content" role="dialog" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>×</button>
+        <Button  type = "main" className="modal-close" onClick={onClose}>X</Button>
         {children}
       </div>
-    </div>,
+    </Modal>,
     document.body
   );
 }
 
-export default Modal;
+export default MainModal;
