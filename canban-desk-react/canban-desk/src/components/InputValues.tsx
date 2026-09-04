@@ -18,6 +18,7 @@ type FormValues = {
 
 
 function InputValues({ onAdd }: InputProps) {
+    
     const [priority, setPriority] = useState("low");
 
     function addTask(values: FormValues) {

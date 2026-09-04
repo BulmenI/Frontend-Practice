@@ -7,6 +7,7 @@ import MainModal from "../components/MainModal";
 import InputValues from "../components/InputValues";
 import '../styles/todo.css';
 import { DndContext } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 
 const STATUS = {
     todo: "todo",
@@ -17,8 +18,6 @@ const STATUS = {
 function Todo() {
     const [taskList, setTaskList] = useState<Task[]>([]);
     const [modalStatus, setModalStatus] = useState(false);
-
-    const [draggedTaskId, setDraggedTaskId] = useState<number | null>(null);
 
     const {getAll, add, remove, get, update} = useIndexedDb<Task>();
 
@@ -31,14 +30,52 @@ function Todo() {
         fetchTasks();
     }, []);
 
+    async function handleDragEnd(event:DragEndEvent) {
+
+        const {active, over} = event;
+        
+        if(!over) return;
+
+        const draggableId = Number(active.id);
+        const status = over.id as Status;
+        const task = taskList.find(task => task.id === draggableId);
+
+        if(!task) return;
+
+        if(task.status === status) return;
+
+        const updatedTask:Task = {
+            ...task,
+            status,
+        };
+
+
+        try{
+            await update(updatedTask);
+
+            setTaskList(prev => prev.map(task => task.id === draggableId ? updatedTask : task));
+
+
+        }catch(error:unknown){
+            if(error instanceof Error) console.log(error.message)
+        }
+            
+    }
+
     function isOpen() {
         setModalStatus(prev => !prev);
     }
 
     async function onAdd(task: Task) {
-        await add(task);
-        setTaskList(prev => [...prev, task]);
-        setModalStatus(false);
+        try{
+            await add(task);
+            setTaskList(prev => [...prev, task]);
+            setModalStatus(false);
+        }catch(error:unknown) {
+
+            if(error instanceof Error) console.log(error.message)
+        }
+        
     }
 
     //todo: useCallback for onDelete and onEdit
@@ -60,9 +97,7 @@ function Todo() {
                 if(error instanceof Error){
                     console.log(error.message)
                 }
-
         }
-        
     }
 
    async function onEdit(taskId: number, value: string) {
@@ -117,7 +152,7 @@ function Todo() {
             return;
         }
 
-        const updatedTask = {...task, status: status,};
+        const updatedTask = {...task, status: status};
 
         await update(updatedTask);
 
@@ -135,7 +170,7 @@ function Todo() {
 
     return (
         <>
-        <DndContext>
+        <DndContext onDragEnd={handleDragEnd}>
             <Button onClick={isOpen}>
                 Add task
             </Button>
