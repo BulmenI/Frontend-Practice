@@ -1,15 +1,10 @@
 import "../styles/footer.css";
+import { Typography } from "antd";
 
-function Footer(){
+const { Text } = Typography;
 
-    return (
-        <div className="footer">
-
-            <p>Сделано с ❤ и React</p>
-
-        </div>
-    );
+function Footer() {
+  return <Text>Сделано с ❤ и React</Text>;
 }
-
 
 export default Footer;

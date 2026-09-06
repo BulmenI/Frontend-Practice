@@ -1,11 +1,11 @@
-import '../styles/mainLoadingFallback.css';
-import { Alert } from 'antd';
+import "../styles/mainLoadingFallback.css";
+import { Alert, Spin } from "antd";
+
 
 function MainLoadingFallback() {
-
     return (
         <div className="loading-fallback">
-          <p>Loading...</p>
+            <Spin tip="Loading..."  size="large"/>
         </div>
     );
 }

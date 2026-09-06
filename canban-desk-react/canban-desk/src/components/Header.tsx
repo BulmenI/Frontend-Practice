@@ -1,22 +1,22 @@
 import { Link } from "react-router";
+import { Menu } from "antd";
 
 function Header() {
-    return (
-        <header className="header">
-            <div>
-
-                <Link to="/" className="header-logo">
-                    Kanban Desk
-                </Link>
-
-                <nav className="header-nav">
-                    <Link to="/">Board</Link>
-                    <Link to="/statistics">Statistics</Link>
-                </nav>
-
-            </div>
-        </header>
-    );
+  return (
+    <Menu
+      mode="horizontal"
+      items={[
+        {
+          key: "board",
+          label: <Link to="/">Board</Link>,
+        },
+        {
+          key: "statistics",
+          label: <Link to="/statistics">Statistics</Link>,
+        },
+      ]}
+    />
+  );
 }
 
 export default Header;

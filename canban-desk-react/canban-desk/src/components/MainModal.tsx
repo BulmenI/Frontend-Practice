@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import { useEffect, type ReactNode } from "react";
 import { Button } from "antd/es/radio";
 import { Modal } from "antd";
-import '../styles/modal.css';
+import "../styles/modal.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,37 +10,37 @@ interface ModalProps {
   onClose: () => void;
 }
 
-function MainModal({ isOpen, children, onClose}: ModalProps) {
-
+function MainModal({ isOpen, children, onClose }: ModalProps) {
   useEffect(() => {
     if (!isOpen) return;
-    
+
     function handleKeyDown(event: KeyboardEvent) {
-        if (event.key === "Escape") {
-            onClose();
-        }
+      if (event.key === "Escape") {
+        onClose();
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-        document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-
   }, [isOpen, onClose]);
-  
-   if (!isOpen) {
-        return null;
-    }
+
+  if (!isOpen) {
+    return null;
+  }
 
   return createPortal(
-    <Modal className="modal-overlay" footer ={null}  open={isOpen}>
-      <div className="modal-content" role="dialog" onClick={(e) => e.stopPropagation()}>
-        <Button  type = "main" className="modal-close" onClick={onClose}>X</Button>
+    <Modal footer={null} open={isOpen} closable={false}>
+      <div role="dialog" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
+       <Button type="main" onClick={onClose}>
+          X
+        </Button>
     </Modal>,
-    document.body
+    document.body,
   );
 }
 
