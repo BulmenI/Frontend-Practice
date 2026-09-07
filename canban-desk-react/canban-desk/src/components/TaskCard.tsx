@@ -30,7 +30,7 @@ function TaskCard({ task, onDelete, onEdit }: TaskCardProps) {
   return (
     <div className="task-card" style={style}>
       <span ref={setNodeRef} {...attributes} {...listeners}>
-       <HolderOutlined />
+        <HolderOutlined />
       </span>
       {isEditing ? (
         <>

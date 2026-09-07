@@ -1,5 +1,5 @@
 import type { Task, Status } from "../types/types";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useIndexedDb } from "../hooks/customHooks";
 import { Button } from "antd";
 import Column from "../components/Column";
@@ -10,7 +10,10 @@ import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store/store";
-import { addTask, deleteTask } from "../store/tasksSlice";
+import { addTask, deleteTask, setTask, updateTask } from "../store/tasksSlice";
+import { ErrorBoundary } from "./ErrorBoundary";
+import { Profiler } from "react";
+import { removeTask, editTask } from "../store/tasksSlice";
 
 const STATUS = {
   todo: "todo",
@@ -19,26 +22,31 @@ const STATUS = {
 } as const;
 
 function Todo() {
-
-  const taskList = useSelector(
-      (state:RootState) => state.tasks.items
-  );
+  const taskList = useSelector((state: RootState) => state.tasks.tasks);
   const dispatch = useDispatch<AppDispatch>();
 
   const [modalStatus, setModalStatus] = useState(false);
 
   const { getAll, add, remove, get, update } = useIndexedDb<Task>();
 
+  const profilerData = useRef <string[]>([]);
+
   useEffect(() => {
     const fetchTasks = async () => {
-      const tasks = await getAll();
-      setTaskList(tasks);
+      try {
+        const tasks = await getAll();
+        dispatch(setTask(tasks));
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+      }
     };
 
     fetchTasks();
-  }, []);
+  }, [getAll, dispatch]);
 
-  async function handleDragEnd(event: DragEndEvent) {
+  async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { active, over } = event;
 
     if (!over) return;
@@ -58,22 +66,21 @@ function Todo() {
 
     try {
       await update(updatedTask);
-
-      setTaskList((prev) =>
-        prev.map((task) => (task.id === draggableId ? updatedTask : task)),
-      );
+      dispatch(updateTask(updatedTask));
     } catch (error: unknown) {
       if (error instanceof Error) console.log(error.message);
     }
   }
 
-  function isOpen() {
+  function isOpen(): void {
     setModalStatus((prev) => !prev);
   }
 
-  async function onAdd(task: Task) {
+  async function onAdd(task: Task): Promise<void> {
+    console.log("on Add");
     try {
       await add(task);
+      console.log("dispatch");
       dispatch(addTask(task));
       setModalStatus(false);
     } catch (error: unknown) {
@@ -83,22 +90,12 @@ function Todo() {
 
   //todo: useCallback for onDelete and onEdit
 
-  async function onDelete(taskId: number) {
+  async function onDelete(taskId: number): Promise<void> {
     // todo try catch
-    try {
-      if (await get(taskId)) {
-        await remove(taskId);
-
-        dispatch(deleteTask(taskId));
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
+   dispatch(removeTask(taskId));
   }
 
-  async function onEdit(taskId: number, value: string) {
+  async function onEdit(taskId: number, value: string): Promise<void> {
     try {
       const result = await get(taskId);
 
@@ -107,54 +104,88 @@ function Todo() {
         return;
       }
 
-      const editTask = dispatch(updatedTask());
-
-      if (!editTask) {
-        alert("Такой задачи нет");
-        return;
-      }
-
-      const updatedTask: Task = { ...editTask, name: value };
+      const updatedTask: Task = {
+        ...result,
+        name: value,
+      };
 
       await update(updatedTask);
 
-     
+      dispatch(updateTask(updatedTask));
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error.message);
       }
     }
   }
+  function onRender(
+    id: string,
+    phase: "mount" | "update" | "nested-update",
+    actualDuration: number,
+    baseDuration: number,
+    startTime: number,
+    commitTime: number,
+  ): void {
+    const data = `
+Component: ${id}
+Phase: ${phase}
+Actual duration: ${actualDuration}
+Base duration: ${baseDuration}
+Start time: ${startTime}
+Commit time: ${commitTime}
+-------------------------
+`;
+    profilerData.current.push(data);
+  }
+  function downloadProfilerData() {
+    const text = profilerData.current.join("\n");
+
+    const blob = new Blob([text], {
+      type: "text/plain",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "profiler-data.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
   return (
     <>
       <DndContext onDragEnd={handleDragEnd}>
-        <Button onClick={isOpen}>Add task</Button>
+        <Profiler id="Todo-page" onRender={onRender}>
+          <Button onClick={isOpen}>Add task</Button>
 
-        <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
-          <InputValues onAdd={onAdd} />
-        </MainModal>
-        <div className="todo">
-          <Column
-            status={STATUS.todo}
-            tasks={taskList}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
+          <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
+            <InputValues onAdd={onAdd} />
+          </MainModal>
+          <ErrorBoundary>
+          //todo: delete onDelete onEdit
+            <div className="todo">
+              <Column
+                status={STATUS.todo}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
 
-          <Column
-            status={STATUS.inProgress}
-            tasks={taskList}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
+              <Column
+                status={STATUS.inProgress}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
 
-          <Column
-            status={STATUS.done}
-            tasks={taskList}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
-        </div>
+              <Column
+                status={STATUS.done}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
+            </div>
+            <Button onClick={downloadProfilerData}>Скачать логи</Button>
+          </ErrorBoundary>
+        </Profiler>
       </DndContext>
     </>
   );

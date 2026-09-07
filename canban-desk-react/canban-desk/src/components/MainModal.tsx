@@ -4,11 +4,11 @@ import { Button } from "antd/es/radio";
 import { Modal } from "antd";
 import "../styles/modal.css";
 
-interface ModalProps {
+type ModalProps = {
   isOpen: boolean;
   children: ReactNode;
   onClose: () => void;
-}
+};
 
 function MainModal({ isOpen, children, onClose }: ModalProps) {
   useEffect(() => {
@@ -36,9 +36,9 @@ function MainModal({ isOpen, children, onClose }: ModalProps) {
       <div role="dialog" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
-       <Button type="main" onClick={onClose}>
-          X
-        </Button>
+      <Button type="main" onClick={onClose}>
+        X
+      </Button>
     </Modal>,
     document.body,
   );

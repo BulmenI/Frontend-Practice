@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { openDb } from "../db/indexedDb";
+import type { Task } from "../types/types";
 
 export function useDebounce<T>(value: T, time: number) {
   const [debounceValue, setDebounceValue] = useState(value);
@@ -123,8 +124,7 @@ export function useIndexedDb<T>() {
       };
     });
   }
-
-  async function getAll(): Promise<T[]> {
+  const getAll = useCallback(async (): Promise<T[]> => {
     const db = await openDb();
 
     return new Promise((resolve, reject) => {
@@ -141,7 +141,65 @@ export function useIndexedDb<T>() {
         reject(request.error);
       };
     });
-  }
+  }, []);
 
   return { add, get, update, remove, getAll };
+}
+
+export async function getTask(id: number): Promise<Task | undefined> {
+  const db = await openDb();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("todos", "readonly");
+    const store = transaction.objectStore("todos");
+
+    const request = store.get(id);
+
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
+}
+
+export async function updateTask(task: Task): Promise<void> {
+  const db = await openDb();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("todos", "readwrite");
+    const store = transaction.objectStore("todos");
+
+    const request = store.put(task);
+
+    request.onsuccess = () => {
+      resolve();
+    };
+
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
+}
+
+export async function deleteTask(id: number): Promise<void>{
+  const db = await openDb();
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("todos", "readwrite");
+      const store = transaction.objectStore("todos");
+
+      const request = store.delete(id);
+
+      request.onsuccess = () => {
+        resolve();
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  
 }
