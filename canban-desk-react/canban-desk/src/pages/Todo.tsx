@@ -10,7 +10,7 @@ import "../styles/todo.css";
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch} from "../store/store";
+import type { AppDispatch } from "../store/store";
 import { addTask, setTask, updateTask } from "../store/tasksSlice";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Profiler } from "react";
@@ -29,7 +29,7 @@ function Todo() {
 
   const [modalStatus, setModalStatus] = useState(false);
 
-  const { getAll, add,update } = useIndexedDb<Task>();
+  const { getAll, add, update } = useIndexedDb<Task>();
 
   const profilerData = useRef<string[]>([]);
 
@@ -129,26 +129,31 @@ Commit time: ${commitTime}
   }
   return (
     <>
-      <DndContext onDragEnd={handleDragEnd}>
-        <Profiler id="Todo-page" onRender={onRender}>
-          <Button onClick={isOpen} block>добавить задачу</Button>
+      <Button onClick={isOpen} block>
+        добавить задачу
+      </Button>
 
-          <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
-            <InputValues onAdd={onAdd} />
-          </MainModal>
-          <SearchInput />
-          <ErrorBoundary>
+      <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
+        <InputValues onAdd={onAdd} />
+      </MainModal>
+
+      <SearchInput />
+
+      <ErrorBoundary>
+        <DndContext onDragEnd={handleDragEnd}>
+          <Profiler id="Kanban" onRender={onRender}>
             <div className="todo">
               <Column status={STATUS.todo} />
-
               <Column status={STATUS.inProgress} />
-
               <Column status={STATUS.done} />
             </div>
-            <Button onClick={downloadProfilerData} block>Скачать логи</Button>
-          </ErrorBoundary>
-        </Profiler>
-      </DndContext>
+          </Profiler>
+        </DndContext>
+
+        <Button onClick={downloadProfilerData} block>
+          Скачать логи
+        </Button>
+      </ErrorBoundary>
     </>
   );
 }

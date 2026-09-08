@@ -6,7 +6,7 @@ import { selectedFilterTasks } from "../store/selectors";
 import { useState } from "react";
 import { Select, DatePicker } from "antd";
 import type { Dayjs } from "dayjs";
-import { getTaskForEndDate } from "../utils/charts/getTasksforEndDate";
+import { getTaskForEndDate } from "../utils/charts/getTasksForEndDate";
 import dayjs from "dayjs";
 
 function Graph() {
