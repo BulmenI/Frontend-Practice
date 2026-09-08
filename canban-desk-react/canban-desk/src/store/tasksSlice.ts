@@ -10,10 +10,12 @@ import {
 
 type TasksState = {
   tasks: Task[];
+  search: string;
 };
 
 const initialState: TasksState = {
   tasks: [],
+  search: "",
 };
 
 export const removeTask = createAsyncThunk(
@@ -35,7 +37,7 @@ export const editTask = createAsyncThunk<
 >(
   "tasks/editTask",
   async (
-    { taskId, value }: { taskId: number; value: string },
+    { taskId, value }: { taskId: number; value: string }, 
     { rejectWithValue },
   ) => {
     try {
@@ -95,6 +97,9 @@ const tasksSlice = createSlice({
 
       task.status = action.payload.status;
     },
+    setSearch(state, action: PayloadAction<string>) {
+      state.search = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -113,7 +118,8 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { addTask, deleteTask, updateTask, moveTask, setTask } =
+
+export const { addTask, deleteTask, updateTask, moveTask, setTask, setSearch } =
   tasksSlice.actions;
 
 export default tasksSlice.reducer;

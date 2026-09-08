@@ -5,6 +5,7 @@ import { Button } from "antd";
 import Column from "../components/Column";
 import MainModal from "../components/MainModal";
 import InputValues from "../components/InputValues";
+import SearchInput from "../components/SearchInput";
 import "../styles/todo.css";
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
@@ -14,6 +15,7 @@ import { addTask, deleteTask, setTask, updateTask } from "../store/tasksSlice";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Profiler } from "react";
 import { removeTask, editTask } from "../store/tasksSlice";
+import { selectedFilterTasks } from "../store/selectors";
 
 const STATUS = {
   todo: "todo",
@@ -22,14 +24,15 @@ const STATUS = {
 } as const;
 
 function Todo() {
-  const taskList = useSelector((state: RootState) => state.tasks.tasks);
+  const taskList = useSelector(selectedFilterTasks);
   const dispatch = useDispatch<AppDispatch>();
 
   const [modalStatus, setModalStatus] = useState(false);
 
   const { getAll, add, remove, get, update } = useIndexedDb<Task>();
 
-  const profilerData = useRef <string[]>([]);
+
+  const profilerData = useRef<string[]>([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -92,7 +95,7 @@ function Todo() {
 
   async function onDelete(taskId: number): Promise<void> {
     // todo try catch
-   dispatch(removeTask(taskId));
+    dispatch(removeTask(taskId));
   }
 
   async function onEdit(taskId: number, value: string): Promise<void> {
@@ -162,8 +165,8 @@ Commit time: ${commitTime}
           <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
             <InputValues onAdd={onAdd} />
           </MainModal>
+          <SearchInput />
           <ErrorBoundary>
-          //todo: delete onDelete onEdit
             <div className="todo">
               <Column
                 status={STATUS.todo}
