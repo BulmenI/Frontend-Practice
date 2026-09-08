@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { useEffect, type ReactNode } from "react";
-import { Button } from "antd/es/radio";
+import { Button } from "antd";
 import { Modal } from "antd";
 import "../styles/modal.css";
 
@@ -32,13 +32,20 @@ function MainModal({ isOpen, children, onClose }: ModalProps) {
   }
 
   return createPortal(
-    <Modal footer={null} open={isOpen} closable={false}>
-      <div role="dialog" onClick={(e) => e.stopPropagation()}>
+    <Modal
+      open={isOpen}
+      closable={false}
+      footer={
+        <div className="modal-actions">
+          <Button onClick={onClose}>
+            Закрыть
+          </Button>
+        </div>
+      }
+    >
+      <div role="dialog">
         {children}
       </div>
-      <Button type="main" onClick={onClose}>
-        X
-      </Button>
     </Modal>,
     document.body,
   );

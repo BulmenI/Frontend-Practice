@@ -66,9 +66,6 @@ const tasksSlice = createSlice({
       state.tasks.push(action.payload);
     },
 
-    deleteTask(state, action: PayloadAction<number>) {
-      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-    },
 
     updateTask(state, action: PayloadAction<Task>) {
       const index = state.tasks.findIndex(
@@ -119,7 +116,7 @@ const tasksSlice = createSlice({
 });
 
 
-export const { addTask, deleteTask, updateTask, moveTask, setTask, setSearch } =
+export const { addTask, updateTask, moveTask, setTask, setSearch } =
   tasksSlice.actions;
 
 export default tasksSlice.reducer;

@@ -4,14 +4,17 @@ import type { Task } from "../types/types";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { HolderOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../store/store";
+import { editTask, removeTask } from "../store/tasksSlice";
 
 type TaskCardProps = {
   task: Task;
-  onDelete: (taskID: number) => void;
-  onEdit: (taskID: number, value: string) => void;
+ 
 };
 
-function TaskCard({ task, onDelete, onEdit }: TaskCardProps) {
+function TaskCard({ task}: TaskCardProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(task.name);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -23,8 +26,14 @@ function TaskCard({ task, onDelete, onEdit }: TaskCardProps) {
   };
 
   function handleSave() {
-    onEdit(task.id, value);
+    dispatch(editTask({
+      taskId:task.id,
+      value,
+    }))
     setIsEditing(false);
+  }
+  function handleDelete(){
+    dispatch(removeTask(task.id))
   }
 
   return (
@@ -57,7 +66,7 @@ function TaskCard({ task, onDelete, onEdit }: TaskCardProps) {
 
       {task.status && <p>Status: {task.status}</p>}
 
-      <Button type="default" onClick={() => onDelete(task.id)}>
+      <Button type="default" onClick={handleDelete}>
         Delete
       </Button>
     </div>

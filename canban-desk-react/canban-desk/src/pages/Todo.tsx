@@ -10,11 +10,11 @@ import "../styles/todo.css";
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../store/store";
-import { addTask, deleteTask, setTask, updateTask } from "../store/tasksSlice";
+import type { AppDispatch} from "../store/store";
+import { addTask, setTask, updateTask } from "../store/tasksSlice";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Profiler } from "react";
-import { removeTask, editTask } from "../store/tasksSlice";
+
 import { selectedFilterTasks } from "../store/selectors";
 
 const STATUS = {
@@ -29,8 +29,7 @@ function Todo() {
 
   const [modalStatus, setModalStatus] = useState(false);
 
-  const { getAll, add, remove, get, update } = useIndexedDb<Task>();
-
+  const { getAll, add,update } = useIndexedDb<Task>();
 
   const profilerData = useRef<string[]>([]);
 
@@ -93,34 +92,6 @@ function Todo() {
 
   //todo: useCallback for onDelete and onEdit
 
-  async function onDelete(taskId: number): Promise<void> {
-    // todo try catch
-    dispatch(removeTask(taskId));
-  }
-
-  async function onEdit(taskId: number, value: string): Promise<void> {
-    try {
-      const result = await get(taskId);
-
-      if (!result) {
-        alert("Такой задачи нет");
-        return;
-      }
-
-      const updatedTask: Task = {
-        ...result,
-        name: value,
-      };
-
-      await update(updatedTask);
-
-      dispatch(updateTask(updatedTask));
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-  }
   function onRender(
     id: string,
     phase: "mount" | "update" | "nested-update",
@@ -160,7 +131,7 @@ Commit time: ${commitTime}
     <>
       <DndContext onDragEnd={handleDragEnd}>
         <Profiler id="Todo-page" onRender={onRender}>
-          <Button onClick={isOpen}>Add task</Button>
+          <Button onClick={isOpen} block>добавить задачу</Button>
 
           <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
             <InputValues onAdd={onAdd} />
@@ -168,25 +139,13 @@ Commit time: ${commitTime}
           <SearchInput />
           <ErrorBoundary>
             <div className="todo">
-              <Column
-                status={STATUS.todo}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
+              <Column status={STATUS.todo} />
 
-              <Column
-                status={STATUS.inProgress}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
+              <Column status={STATUS.inProgress} />
 
-              <Column
-                status={STATUS.done}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
+              <Column status={STATUS.done} />
             </div>
-            <Button onClick={downloadProfilerData}>Скачать логи</Button>
+            <Button onClick={downloadProfilerData} block>Скачать логи</Button>
           </ErrorBoundary>
         </Profiler>
       </DndContext>

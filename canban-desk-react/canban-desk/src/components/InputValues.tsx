@@ -45,11 +45,11 @@ function InputValues({ onAdd }: InputProps) {
       >
         <Input />
       </Form.Item>
-      <Form.Item label="Начальное время" name="startTime">
-        <DatePicker showTime />
+      <Form.Item label="Начальное время" name="startTime" >
+        <DatePicker showTime style={{ width: "100%" }} placeholder="Выберите начальную дату" />
       </Form.Item>
       <Form.Item label="Конечное время" name="endTime">
-        <DatePicker showTime />
+        <DatePicker showTime  style={{ width: "100%" }} placeholder="Выберите конечную дату"/>
       </Form.Item>
       <Form.Item label="Приоритет" name="priority" initialValue="low">
         <Select
@@ -62,7 +62,7 @@ function InputValues({ onAdd }: InputProps) {
           ]}
         />
       </Form.Item>
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" block>
         Добавить задачу
       </Button>
     </Form>
