@@ -10,3 +10,6 @@
     border: 1px solid #ddd;
     border-radius: 8px;
 }
+.column h3 {
+    text-align: center;
+}

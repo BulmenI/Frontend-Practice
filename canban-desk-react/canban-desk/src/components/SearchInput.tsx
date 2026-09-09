@@ -11,7 +11,7 @@ function SearchInput() {
   }
 
   return (
-    <>
+
       <Input.Search
         placeholder="Поиск задачи"
         onSearch={search}
@@ -19,7 +19,7 @@ function SearchInput() {
         allowClear
         size="large"
       ></Input.Search>
-    </>
+    
   );
 }
 

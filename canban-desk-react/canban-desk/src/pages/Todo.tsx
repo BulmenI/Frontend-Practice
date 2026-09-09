@@ -6,7 +6,6 @@ import Column from "../components/Column";
 import MainModal from "../components/MainModal";
 import InputValues from "../components/InputValues";
 import SearchInput from "../components/SearchInput";
-import "../styles/todo.css";
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +13,7 @@ import type { AppDispatch } from "../store/store";
 import { addTask, setTask, updateTask } from "../store/tasksSlice";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Profiler } from "react";
+import "../styles/todoPage.css";
 
 import { selectedFilterTasks } from "../store/selectors";
 
@@ -128,7 +128,7 @@ Commit time: ${commitTime}
     URL.revokeObjectURL(url);
   }
   return (
-    <>
+    <div className="todo-page">
       <h1>Kanban-desk</h1>
 
       <section>
@@ -164,7 +164,7 @@ Commit time: ${commitTime}
       <Button onClick={downloadProfilerData} block>
         Скачать логи
       </Button>
-    </>
+    </div>
   );
 }
 

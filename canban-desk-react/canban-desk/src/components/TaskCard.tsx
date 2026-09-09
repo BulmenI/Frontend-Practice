@@ -7,6 +7,7 @@ import { HolderOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { editTask, removeTask } from "../store/tasksSlice";
+import "../styles/taskCard.css";
 
 type TaskCardProps = {
   task: Task;
@@ -38,7 +39,7 @@ function TaskCard({ task }: TaskCardProps) {
   }
 
   return (
-    <article className="task-card" style={style}>
+    <article className="task-card" style={style} data-status={task.status}>
       <span ref={setNodeRef} {...attributes} {...listeners}>
         <HolderOutlined />
       </span>
