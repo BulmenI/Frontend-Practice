@@ -48,6 +48,8 @@ export function useFetch(url: string) {
   };
 }
 
+// todo rework useIndexedDb
+
 export function useIndexedDb<T>() {
   async function add(value: T): Promise<void> {
     const db = await openDb();
@@ -184,22 +186,21 @@ export async function updateTask(task: Task): Promise<void> {
   });
 }
 
-export async function deleteTask(id: number): Promise<void>{
+export async function deleteTask(id: number): Promise<void> {
   const db = await openDb();
 
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction("todos", "readwrite");
-      const store = transaction.objectStore("todos");
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("todos", "readwrite");
+    const store = transaction.objectStore("todos");
 
-      const request = store.delete(id);
+    const request = store.delete(id);
 
-      request.onsuccess = () => {
-        resolve();
-      };
+    request.onsuccess = () => {
+      resolve();
+    };
 
-      request.onerror = () => {
-        reject(request.error);
-      };
-    });
-  
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
 }

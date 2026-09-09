@@ -79,7 +79,6 @@ function Todo() {
   }
 
   async function onAdd(task: Task): Promise<void> {
-    console.log("on Add");
     try {
       await add(task);
       console.log("dispatch");
@@ -124,36 +123,47 @@ Commit time: ${commitTime}
     a.href = url;
     a.download = "profiler-data.txt";
     a.click();
+    //todo delete url 
 
     URL.revokeObjectURL(url);
   }
   return (
     <>
-      <Button onClick={isOpen} block>
-        добавить задачу
-      </Button>
+      <h1>Kanban-desk</h1>
 
-      <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
-        <InputValues onAdd={onAdd} />
-      </MainModal>
+      <section>
+        <h2>Управление задачами</h2>
 
-      <SearchInput />
-
-      <ErrorBoundary>
-        <DndContext onDragEnd={handleDragEnd}>
-          <Profiler id="Kanban" onRender={onRender}>
-            <div className="todo">
-              <Column status={STATUS.todo} />
-              <Column status={STATUS.inProgress} />
-              <Column status={STATUS.done} />
-            </div>
-          </Profiler>
-        </DndContext>
-
-        <Button onClick={downloadProfilerData} block>
-          Скачать логи
+        <Button onClick={isOpen} block>
+          Добавить задачу
         </Button>
-      </ErrorBoundary>
+
+        <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
+          <InputValues onAdd={onAdd} />
+        </MainModal>
+
+        <SearchInput />
+      </section>
+
+      <section>
+        <h2>Канбан-доска</h2>
+
+        <ErrorBoundary>
+          <DndContext onDragEnd={handleDragEnd}>
+            <Profiler id="Kanban" onRender={onRender}>
+              <div className="todo">
+                <Column status={STATUS.todo} />
+                <Column status={STATUS.inProgress} />
+                <Column status={STATUS.done} />
+              </div>
+            </Profiler>
+          </DndContext>
+        </ErrorBoundary>
+      </section>
+
+      <Button onClick={downloadProfilerData} block>
+        Скачать логи
+      </Button>
     </>
   );
 }

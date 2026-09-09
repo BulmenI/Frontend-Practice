@@ -1,5 +1,5 @@
 import "../styles/mainLoadingFallback.css";
-import { Alert, Spin } from "antd";
+import { Spin } from "antd";
 
 function MainLoadingFallback() {
   return (

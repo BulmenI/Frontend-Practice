@@ -9,9 +9,11 @@ function MainLayout() {
       <Layout.Header>
         <Header />
       </Layout.Header>
+      <main>
       <Layout.Content>
         <Outlet />
       </Layout.Content>
+      </main>
       <Layout.Footer>
         <Footer />
       </Layout.Footer>

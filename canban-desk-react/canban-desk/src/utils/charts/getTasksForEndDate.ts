@@ -1,15 +1,18 @@
 import type { EChartsOption } from "echarts";
-import type { Task } from "../../types/types";
+import type { Status, Task } from "../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
 export function getTaskForEndDate(
   taskList: Task[],
   endTime: Dayjs,
+  status: Status | null,
 ): EChartsOption {
-  const endedTasks = taskList.filter((task) =>
-    dayjs(task.endTime).isSame(endTime, "day"),
-  );
+  const endedTasks = taskList
+    .filter((task) => dayjs(task.endTime).isSame(endTime, "day"))
+    .filter((task) => {
+      return status === null || task.status === status;
+    });
 
   const priorityCount = endedTasks.reduce(
     (acc, task) => {
@@ -39,9 +42,18 @@ export function getTaskForEndDate(
       {
         type: "pie",
         data: [
-          { value: priorityCount.high, name: "Высокий" },
-          { value: priorityCount.medium, name: "Средний" },
-          { value: priorityCount.low, name: "Низкий" },
+          {
+            value: priorityCount.high,
+            name: "Высокий",
+          },
+          {
+            value: priorityCount.medium,
+            name: "Средний",
+          },
+          {
+            value: priorityCount.low,
+            name: "Низкий",
+          },
         ],
       },
     ],

@@ -16,7 +16,8 @@ function Column({ status}: ColumnProps) {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   return (
-    <div className="column" ref={setNodeRef}>
+    <section className="column" ref={setNodeRef}>
+      <h3>{status}</h3>
       {tasks
         .filter((task) => task.status === status)
         .map((task) => (
@@ -25,8 +26,8 @@ function Column({ status}: ColumnProps) {
             task={task}
           />
         ))}
-    </div>
+    </section>
   );
 }
-
+ // todo React.memo() ???
 export default React.memo(Column);

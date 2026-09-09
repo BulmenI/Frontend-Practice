@@ -10,10 +10,9 @@ import { editTask, removeTask } from "../store/tasksSlice";
 
 type TaskCardProps = {
   task: Task;
- 
 };
 
-function TaskCard({ task}: TaskCardProps) {
+function TaskCard({ task }: TaskCardProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(task.name);
@@ -26,23 +25,26 @@ function TaskCard({ task}: TaskCardProps) {
   };
 
   function handleSave() {
-    dispatch(editTask({
-      taskId:task.id,
-      value,
-    }))
+    dispatch(
+      editTask({
+        taskId: task.id,
+        value,
+      }),
+    );
     setIsEditing(false);
   }
-  function handleDelete(){
-    dispatch(removeTask(task.id))
+  function handleDelete() {
+    dispatch(removeTask(task.id));
   }
 
   return (
-    <div className="task-card" style={style}>
+    <article className="task-card" style={style}>
       <span ref={setNodeRef} {...attributes} {...listeners}>
         <HolderOutlined />
       </span>
       {isEditing ? (
         <>
+          <label htmlFor="task-name">Название задачи</label>
           <Input value={value} onChange={(e) => setValue(e.target.value)} />
 
           <Button type="primary" onClick={handleSave}>
@@ -51,7 +53,7 @@ function TaskCard({ task}: TaskCardProps) {
         </>
       ) : (
         <>
-          <h3>{task.name}</h3>
+          <h4>{task.name}</h4>
 
           <Button type="default" onClick={() => setIsEditing(true)}>
             Edit
@@ -69,8 +71,8 @@ function TaskCard({ task}: TaskCardProps) {
       <Button type="default" onClick={handleDelete}>
         Delete
       </Button>
-    </div>
+    </article>
   );
 }
-// todo: useCallback for onDelete and onEdit
+// todo: useCallback for onDelete and onEdit React.memo() ???
 export default React.memo(TaskCard);

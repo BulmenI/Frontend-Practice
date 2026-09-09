@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Task } from "../types/types";
 import { Input, Select, DatePicker, Button, Form } from "antd";
 import "../styles/input.css";
@@ -16,8 +15,6 @@ type FormValues = {
 };
 
 function InputValues({ onAdd }: InputProps) {
-  const [priority, setPriority] = useState("low");
-
   function addTask(values: FormValues) {
     const newTask: Task = {
       id: Date.now(),
@@ -45,16 +42,40 @@ function InputValues({ onAdd }: InputProps) {
       >
         <Input />
       </Form.Item>
-      <Form.Item label="Начальное время" name="startTime" >
-        <DatePicker showTime style={{ width: "100%" }} placeholder="Выберите начальную дату" />
+      <Form.Item
+        label="Начальное время"
+        name="startTime"
+        rules={[
+          {
+            required: true,
+            message: "Выберите начальную дату",
+          },
+        ]}
+      >
+        <DatePicker
+          showTime
+          style={{ width: "100%" }}
+          placeholder="Выберите начальную дату"
+        />
       </Form.Item>
-      <Form.Item label="Конечное время" name="endTime">
-        <DatePicker showTime  style={{ width: "100%" }} placeholder="Выберите конечную дату"/>
+      <Form.Item
+        label="Конечное время"
+        name="endTime"
+        rules={[
+          {
+            required: true,
+            message: "Выберите конечную дату",
+          },
+        ]}
+      >
+        <DatePicker
+          showTime
+          style={{ width: "100%" }}
+          placeholder="Выберите конечную дату"
+        />
       </Form.Item>
       <Form.Item label="Приоритет" name="priority" initialValue="low">
         <Select
-          value={priority}
-          onChange={setPriority}
           options={[
             { value: "low", label: "Низкий" },
             { value: "medium", label: "Средний" },

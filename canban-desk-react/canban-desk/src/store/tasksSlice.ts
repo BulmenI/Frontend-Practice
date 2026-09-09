@@ -37,7 +37,7 @@ export const editTask = createAsyncThunk<
 >(
   "tasks/editTask",
   async (
-    { taskId, value }: { taskId: number; value: string }, 
+    { taskId, value }: { taskId: number; value: string },
     { rejectWithValue },
   ) => {
     try {
@@ -65,7 +65,6 @@ const tasksSlice = createSlice({
     addTask(state, action: PayloadAction<Task>) {
       state.tasks.push(action.payload);
     },
-
 
     updateTask(state, action: PayloadAction<Task>) {
       const index = state.tasks.findIndex(
@@ -114,7 +113,6 @@ const tasksSlice = createSlice({
       });
   },
 });
-
 
 export const { addTask, updateTask, moveTask, setTask, setSearch } =
   tasksSlice.actions;
