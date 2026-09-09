@@ -1,7 +1,14 @@
-.task-card{
-    width: 200px;
-    height: 200px;
-    border-radius: 5px;
+.task-card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  align-self: flex-end;
+  margin-top: auto;
 }
 
 .task-card[data-status="todo"] {

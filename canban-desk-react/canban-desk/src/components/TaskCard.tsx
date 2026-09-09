@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { editTask, removeTask } from "../store/tasksSlice";
 import "../styles/taskCard.css";
+import dayjs from "dayjs";
+import type { Priority } from "../types/types";
 
 type TaskCardProps = {
   task: Task;
@@ -20,6 +22,12 @@ function TaskCard({ task }: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: String(task.id),
   });
+
+  const priorityLabels: Record<Priority, string> = {
+    low: "Низкий",
+    medium: "Средний",
+    high: "Высокий",
+  };
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -49,7 +57,7 @@ function TaskCard({ task }: TaskCardProps) {
           <Input value={value} onChange={(e) => setValue(e.target.value)} />
 
           <Button type="primary" onClick={handleSave}>
-            Save
+            Сохранить
           </Button>
         </>
       ) : (
@@ -57,20 +65,22 @@ function TaskCard({ task }: TaskCardProps) {
           <h4>{task.name}</h4>
 
           <Button type="default" onClick={() => setIsEditing(true)}>
-            Edit
+            Изменить
           </Button>
         </>
       )}
 
-      <p>Start: {task.startTime}</p>
-      <p>End: {task.endTime}</p>
+      <p>Начало: {dayjs(task.startTime).format("DD.MM.YYYY HH:mm")}</p>
+      <p>Конец: {dayjs(task.endTime).format("DD.MM.YYYY HH:mm")}</p>
 
-      {task.priority && <p>Priority: {task.priority}</p>}
+      <p>
+        Приоритет: {task.priority ? priorityLabels[task.priority] : ""}
+      </p>
 
-      {task.status && <p>Status: {task.status}</p>}
+      <p>Статус: {task.status}</p>
 
-      <Button type="default" onClick={handleDelete}>
-        Delete
+      <Button type="default" className="delete-btn" onClick={handleDelete}>
+        Удалить
       </Button>
     </article>
   );

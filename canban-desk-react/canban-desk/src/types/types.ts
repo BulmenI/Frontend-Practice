@@ -14,7 +14,7 @@ export type Task = {
   name: string;
   startTime: string;
   endTime: string;
-  priority?: string;
+  priority?: Priority;
   status?: Status;
   position?: number;
 };

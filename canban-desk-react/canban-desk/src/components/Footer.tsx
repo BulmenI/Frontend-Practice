@@ -4,7 +4,7 @@ import { Typography } from "antd";
 const { Text } = Typography;
 
 function Footer() {
-  return <Text>Сделано с ❤ и React</Text>;
+  return <Text className="footer">Сделано с ❤ и React</Text>;
 }
 
 export default Footer;

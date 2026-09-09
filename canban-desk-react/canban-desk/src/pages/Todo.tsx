@@ -48,6 +48,7 @@ function Todo() {
     fetchTasks();
   }, [getAll, dispatch]);
 
+    //todo asyncthunk
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { active, over } = event;
 
@@ -67,8 +68,8 @@ function Todo() {
     };
 
     try {
-      await update(updatedTask);
       dispatch(updateTask(updatedTask));
+      await update(updatedTask);
     } catch (error: unknown) {
       if (error instanceof Error) console.log(error.message);
     }
@@ -123,30 +124,30 @@ Commit time: ${commitTime}
     a.href = url;
     a.download = "profiler-data.txt";
     a.click();
-    //todo delete url 
+    
 
     URL.revokeObjectURL(url);
   }
   return (
     <div className="todo-page">
-      <h1>Kanban-desk</h1>
+      <h1 className="todo-page__title">Kanban-desk</h1>
 
-      <section>
+      <section className="task-management">
         <h2>Управление задачами</h2>
 
-        <Button onClick={isOpen} block>
-          Добавить задачу
-        </Button>
+        <div className="task-management__controls">
+          <Button onClick={isOpen}>Добавить задачу</Button>
+
+          <SearchInput />
+        </div>
 
         <MainModal isOpen={modalStatus} onClose={() => setModalStatus(false)}>
           <InputValues onAdd={onAdd} />
         </MainModal>
-
-        <SearchInput />
       </section>
 
-      <section>
-        <h2>Канбан-доска</h2>
+      <section className="kanban-section">
+        <h2>Ваши задачи</h2>
 
         <ErrorBoundary>
           <DndContext onDragEnd={handleDragEnd}>
@@ -161,7 +162,7 @@ Commit time: ${commitTime}
         </ErrorBoundary>
       </section>
 
-      <Button onClick={downloadProfilerData} block>
+      <Button className="download-button" onClick={downloadProfilerData}>
         Скачать логи
       </Button>
     </div>
