@@ -1,0 +1,61 @@
+:root {
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  /* Sizes */
+  --radius-sm: 5px;
+  --radius-md: 8px;
+
+  /* Fonts */
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+
+  /* Icons */
+  --icon-md: 24px;
+  --icon-lg: 40px;
+  --icon-xl: 48px;
+
+  /* Colors */
+  --color-bg-page: #f5f5f5;
+  --color-bg-surface: #fff;
+  --color-border: #ddd;
+  --color-text: #1f1f1f;
+  --color-text-secondary: #666;
+
+  /* Status */
+  --status-todo: #393a3a7a;
+  --status-in-progress: #efef1882;
+  --status-done: #09ec097a;
+
+  /* Modal */
+  --color-overlay: rgb(0 0 0 / 80%);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 10px rgb(0 0 0 / 10%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: var(--color-bg-page);
+}

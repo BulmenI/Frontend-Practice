@@ -1,6 +1,6 @@
 import type { Priority, Task } from "../types/types";
 import { Input, Select, DatePicker, Button, Form } from "antd";
-import "../styles/input.css";
+
 import type { Dayjs } from "dayjs";
 
 type InputProps = {

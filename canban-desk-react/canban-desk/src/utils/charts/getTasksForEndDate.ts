@@ -105,7 +105,7 @@ export function getTaskForEndDate(
             ]
           : [
               {
-                value: 1,
+                value: 0,
                 name: "Нет задач",
                 itemStyle: {
                   color: "#e5e5e5",

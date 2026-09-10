@@ -1,0 +1,23 @@
+.confirm-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+
+  padding: var(--space-xl);
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.confirm-content p {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.confirm-icon {
+  font-size: var(--icon-lg);
+  color: var(--color-text-secondary);
+  animation: confirmIcon 0.5s ease;
+}

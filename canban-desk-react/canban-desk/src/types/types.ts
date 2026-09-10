@@ -18,3 +18,9 @@ export type Task = {
   status?: Status;
   position?: number;
 };
+
+export type StatusMap = {
+  todo: Status;
+  inProgress: Status;
+  done: Status;
+};

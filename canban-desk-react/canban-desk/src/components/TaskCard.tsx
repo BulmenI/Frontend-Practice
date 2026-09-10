@@ -36,7 +36,7 @@ function TaskCard({ task }: TaskCardProps) {
 
   const statusLabels: Record<Status, string> = {
     todo: "Выполнить",
-    "in-progress": "В процессе",
+    inProgress: "В процессе",
     done: "Выполнено",
   };
 
@@ -45,7 +45,7 @@ function TaskCard({ task }: TaskCardProps) {
   };
 
   function handleSave() {
-    setConfirmAction((prev) => (prev = "edit"));
+    setConfirmAction("edit");
   }
   async function confirmSave() {
     try {
@@ -62,7 +62,7 @@ function TaskCard({ task }: TaskCardProps) {
     }
   }
   function handleDelete() {
-    setConfirmAction((prev) => (prev = "delete"));
+    setConfirmAction( "delete");
   }
 
   async function confirmDelete() {

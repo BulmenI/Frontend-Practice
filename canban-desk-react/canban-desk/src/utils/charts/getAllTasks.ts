@@ -2,6 +2,11 @@ import type { EChartsOption } from "echarts";
 import type { Task } from "../../types/types";
 
 export function getAllTasks(taskList: Task[]): EChartsOption {
+  const statusColors ={
+    todo:"#393a3a7a",
+    inProgress:"#efef1882",
+    done:"#09ec097a",
+  }
   const statusCount = taskList.reduce(
     (acc, task) => {
       if (task.status) {
@@ -48,11 +53,11 @@ export function getAllTasks(taskList: Task[]): EChartsOption {
         name: "Количество задач",
         type: "bar",
         data: [{value:statusCount.todo, itemStyle:{
-          color:"#1c1b19be",
+          color:statusColors.todo,
         }}, {value:statusCount.inProgress, itemStyle:{
-          color:"#faad14",
+          color:statusColors.inProgress,
         }},{value:statusCount.done, itemStyle:{
-          color:"#52c41a",
+          color:statusColors.done,
         }},],
         label: {
           show: true,

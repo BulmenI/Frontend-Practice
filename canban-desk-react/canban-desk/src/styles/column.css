@@ -1,15 +1,18 @@
-.column{
-    display: flex;
-    flex-direction: column;
-    flex:1;
-    min-width: 0;
-    min-height: 500px;
-    gap: 12px;
-    padding: 12px;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 500px;
+  gap: var(--space-md);
+  padding: var(--space-md);
+
+  background: var(--color-bg-page);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
+
 .column h3 {
-    text-align: center;
+  margin: 0;
+  text-align: center;
 }

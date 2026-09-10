@@ -1,4 +1,4 @@
-import type { Task, Status } from "../types/types";
+import type { Task, Status, StatusMap } from "../types/types";
 import { useEffect, useState, useRef } from "react";
 import { useIndexedDb } from "../hooks/customHooks";
 import { Button } from "antd";
@@ -16,20 +16,20 @@ import { Profiler } from "react";
 import "../styles/todoPage.css";
 
 import { selectedFilterTasks } from "../store/selectors";
-import Confirm from "../components/Confirm";
 
-const STATUS = {
+
+
+const STATUS: StatusMap = {
   todo: "todo",
-  inProgress: "in-progress",
+  inProgress: "inProgress",
   done: "done",
-} as const;
+};
 
 function Todo() {
   const taskList = useSelector(selectedFilterTasks);
   const dispatch = useDispatch<AppDispatch>();
 
   const [modalStatus, setModalStatus] = useState(false);
-  
 
   const { getAll, add, update } = useIndexedDb<Task>();
 

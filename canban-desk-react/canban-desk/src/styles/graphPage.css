@@ -1,7 +1,4 @@
-.graph-page{
-
-}
-
 .graph-page h1 {
-    text-align: center;
+  margin: 0 0 var(--space-xl);
+  text-align: center;
 }
