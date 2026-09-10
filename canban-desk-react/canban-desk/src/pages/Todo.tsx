@@ -16,6 +16,7 @@ import { Profiler } from "react";
 import "../styles/todoPage.css";
 
 import { selectedFilterTasks } from "../store/selectors";
+import Confirm from "../components/Confirm";
 
 const STATUS = {
   todo: "todo",
@@ -28,6 +29,7 @@ function Todo() {
   const dispatch = useDispatch<AppDispatch>();
 
   const [modalStatus, setModalStatus] = useState(false);
+  
 
   const { getAll, add, update } = useIndexedDb<Task>();
 
@@ -48,7 +50,7 @@ function Todo() {
     fetchTasks();
   }, [getAll, dispatch]);
 
-    //todo asyncthunk
+  //todo async thunk
   async function handleDragEnd(event: DragEndEvent): Promise<void> {
     const { active, over } = event;
 
@@ -124,7 +126,6 @@ Commit time: ${commitTime}
     a.href = url;
     a.download = "profiler-data.txt";
     a.click();
-    
 
     URL.revokeObjectURL(url);
   }

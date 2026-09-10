@@ -8,11 +8,11 @@ function Header() {
       items={[
         {
           key: "board",
-          label: <Link to="/">Board</Link>,
+          label: <Link to="/">Доска</Link>,
         },
         {
           key: "statistics",
-          label: <Link to="/statistics">Statistics</Link>,
+          label: <Link to="/statistics">Статистика</Link>,
         },
       ]}
     />

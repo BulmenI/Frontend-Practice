@@ -11,18 +11,9 @@ export function getSelectedTasks(
 
   const priorityCount = selectedTasks.reduce(
     (acc, task) => {
-      if (task.priority === "high") {
-        acc.high++;
+      if (task.priority) {
+        acc[task.priority]++
       }
-
-      if (task.priority === "medium") {
-        acc.medium++;
-      }
-
-      if (task.priority === "low") {
-        acc.low++;
-      }
-
       return acc;
     },
     {
@@ -33,6 +24,22 @@ export function getSelectedTasks(
   );
 
   return {
+    title: {
+      text: "Задачи по приоритету",
+      left: "center",
+    },
+
+    tooltip: {
+      trigger: "axis",
+    },
+
+    grid: {
+      left: "5%",
+      right: "5%",
+      bottom: "10%",
+      containLabel: true,
+    },
+
     xAxis: {
       type: "category",
       data: ["Высокий", "Средний", "Низкий"],
@@ -40,16 +47,41 @@ export function getSelectedTasks(
 
     yAxis: {
       type: "value",
+      minInterval: 1,
     },
 
     series: [
       {
+        name: "Количество задач",
         type: "bar",
+
         data: [
-          priorityCount.high,
-          priorityCount.medium,
-          priorityCount.low,
+          {
+            value: priorityCount.high,
+            itemStyle: {
+              color: "#ff4d4f",
+            },
+          },
+          {
+            value: priorityCount.medium,
+            itemStyle: {
+              color: "#faad14",
+            },
+          },
+          {
+            value: priorityCount.low,
+            itemStyle: {
+              color: "#52c41a",
+            },
+          },
         ],
+
+        barMaxWidth: 60,
+
+        label: {
+          show: true,
+          position: "top",
+        },
       },
     ],
   };

@@ -1,4 +1,4 @@
-import type { Task } from "../types/types";
+import type { Priority, Task } from "../types/types";
 import { Input, Select, DatePicker, Button, Form } from "antd";
 import "../styles/input.css";
 import type { Dayjs } from "dayjs";
@@ -11,7 +11,7 @@ type FormValues = {
   name: string;
   startTime: Dayjs;
   endTime: Dayjs;
-  priority: string;
+  priority: Priority;
 };
 
 function InputValues({ onAdd }: InputProps) {

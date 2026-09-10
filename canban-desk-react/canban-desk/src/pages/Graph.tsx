@@ -9,21 +9,20 @@ import type { Dayjs } from "dayjs";
 import { getTaskForEndDate } from "../utils/charts/getTasksForEndDate";
 import dayjs from "dayjs";
 import type { Status } from "../types/types";
+import "../styles/graphPage.css";
 
 function Graph() {
   const taskList = useSelector(selectedFilterTasks);
   const [selectValue, setSelectValue] = useState<Status>("todo");
-  const [selectSecondValue, setSelectSecondValue] = useState<Status | null>(
-    null,
-  );
+  const [selectStatus, setSelectStatus] = useState<Status | "all">("all");
   const [date, setDate] = useState<Dayjs>(dayjs());
   // todo useMemo?
   const allOption = getAllTasks(taskList);
   const selectedOption = getSelectedTasks(taskList, selectValue);
-  const endDateOption = getTaskForEndDate(taskList, date, selectSecondValue);
+  const endDateOption = getTaskForEndDate(taskList, date, selectStatus);
   //todo add more logic for third diagramm
   return (
-    <>
+    <div className="graph-page">
       <h1>Статистика задач</h1>
       <section>
         <h2>Общая статистика</h2>
@@ -56,10 +55,10 @@ function Graph() {
           }}
         />
         <Select
-          value={selectSecondValue}
-          onChange={setSelectSecondValue}
+          value={selectStatus}
+          onChange={setSelectStatus}
           options={[
-            { value: null, label: "All status" },
+            { value: "all", label: "All status" },
             { value: "todo", label: "To Do" },
             { value: "in-progress", label: "In Progress" },
             { value: "done", label: "Done" },
@@ -68,7 +67,7 @@ function Graph() {
 
         <Chart option={endDateOption} />
       </section>
-    </>
+    </div>
   );
 }
 
