@@ -4,7 +4,7 @@
   padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
 }
 
-.todo-page__title {
+.todo-page-title {
   margin: 0 0 var(--space-2xl);
   text-align: center;
   font-size: 32px;
@@ -20,18 +20,20 @@
   margin-bottom: var(--space-3xl);
 }
 
-.task-management__controls {
+.task-management-controls {
   display: flex;
   align-items: center;
   gap: var(--space-lg);
 }
 
-.task-management__controls > .ant-btn {
-  flex: 0 0 220px;
+.task-management-controls > .ant-btn {
+  flex: 1 1 220px;
+  max-width: 220px;
+  min-width: 96px;
   height: 40px;
 }
 
-.task-management__controls > .ant-input-search {
+.task-management-controls > .ant-input-search {
   flex: 1;
   min-width: 0;
 }

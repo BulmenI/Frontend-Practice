@@ -8,6 +8,14 @@ export function getTaskForEndDate(
   endTime: Dayjs,
   status: Status | "all",
 ): EChartsOption {
+  console.log("selected status:", status);
+  console.log(
+    "tasks:",
+    taskList.map((task) => ({
+      name: task.name,
+      status: task.status,
+    })),
+  );
   const endedTasks = taskList
     .filter((task) => dayjs(task.endTime).isSame(endTime, "day"))
     .filter((task) => {
@@ -49,20 +57,6 @@ export function getTaskForEndDate(
       bottom: 0,
       data: ["Высокий", "Средний", "Низкий"],
     },
-
-    graphic: hasTasks
-      ? {
-          type: "text",
-          left: "center",
-          top: "center",
-          style: {
-            align: "center",
-            fontSize: 18,
-            fontWeight: "bold",
-          },
-        }
-      : undefined,
-
     series: [
       {
         type: "pie",

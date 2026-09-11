@@ -37,15 +37,11 @@ function MainModal({ isOpen, children, onClose }: ModalProps) {
       closable={false}
       footer={
         <div className="modal-actions">
-          <Button onClick={onClose}>
-            Закрыть
-          </Button>
+          <Button onClick={onClose}>Закрыть</Button>
         </div>
       }
     >
-      <div role="dialog">
-        {children}
-      </div>
+      <div role="dialog">{children}</div>
     </Modal>,
     document.body,
   );

@@ -3,7 +3,6 @@ import { lazy, Suspense } from "react";
 import MainLayout from "../layouts/MainLayout";
 import MainLoadingFallback from "../pages/MainLoadingFallback";
 import Graph from "../pages/Graph";
-
 const Todo = lazy(async () => {
   await new Promise<void>((resolve) => {
     setTimeout(resolve, 3000);
@@ -11,6 +10,7 @@ const Todo = lazy(async () => {
 
   return import("../pages/Todo");
 });
+
 
 function AppRoutes() {
   return (

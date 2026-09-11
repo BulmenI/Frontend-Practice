@@ -1,6 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { openDb } from "../db/indexedDb";
 import type { Task } from "../types/types";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../store/store";
+import { setTask } from "../store/tasksSlice";
 
 export function useDebounce<T>(value: T, time: number) {
   const [debounceValue, setDebounceValue] = useState(value);
@@ -203,4 +206,63 @@ export async function deleteTask(id: number): Promise<void> {
       reject(request.error);
     };
   });
+}
+
+export function useTasks() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { getAll } = useIndexedDb<Task>();
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const tasks = await getAll();
+        dispatch(setTask(tasks));
+      } catch (error: unknown) {
+        if (error instanceof Error) console.log(error.message);
+      }
+    };
+    fetchTasks();
+  }, [getAll, dispatch]);
+}
+
+export function useProfiler() {
+  const profilerData = useRef<string[]>([]);
+
+  function onRender(
+    id: string,
+    phase: "mount" | "update" | "nested-update",
+    actualDuration: number,
+    baseDuration: number,
+    startTime: number,
+    commitTime: number,
+  ): void {
+    const data = `
+Component: ${id}
+Phase: ${phase} 
+Actual duration: ${actualDuration}
+Base duration: ${baseDuration}
+Start time: ${startTime}
+Commit time: ${commitTime}
+-------------------------
+`;
+    profilerData.current.push(data);
+  }
+  function downloadProfilerData() {
+    const text = profilerData.current.join("\n");
+
+    const blob = new Blob([text], {
+      type: "text/plain",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "profiler-data.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  return { onRender, downloadProfilerData };
 }

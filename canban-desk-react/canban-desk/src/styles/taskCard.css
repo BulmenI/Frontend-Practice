@@ -20,9 +20,9 @@
   max-width: 100%;
 }
 
-.delete-btn {
+.task-card .delete-btn  {
   align-self: flex-end;
-  width: auto !important;
+  width: auto;
   margin-top: auto;
 }
 

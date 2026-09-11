@@ -8,7 +8,7 @@ import { Select, DatePicker } from "antd";
 import type { Dayjs } from "dayjs";
 import { getTaskForEndDate } from "../utils/charts/getTasksForEndDate";
 import dayjs from "dayjs";
-import type { Status } from "../types/types";
+import type { Status, Task } from "../types/types";
 import "../styles/graphPage.css";
 
 function Graph() {
@@ -16,6 +16,8 @@ function Graph() {
   const [selectValue, setSelectValue] = useState<Status>("todo");
   const [selectStatus, setSelectStatus] = useState<Status | "all">("all");
   const [date, setDate] = useState<Dayjs>(dayjs());
+  // todo Вынести логику
+
   // todo useMemo?
   const allOption = getAllTasks(taskList);
   const selectedOption = getSelectedTasks(taskList, selectValue);
@@ -60,7 +62,7 @@ function Graph() {
           options={[
             { value: "all", label: "All status" },
             { value: "todo", label: "To Do" },
-            { value: "in-progress", label: "In Progress" },
+            { value: "inProgress", label: "In Progress" },
             { value: "done", label: "Done" },
           ]}
         />
