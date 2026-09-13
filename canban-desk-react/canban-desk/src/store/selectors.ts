@@ -1,11 +1,11 @@
 import type { RootState } from "./store";
 import { createSelector } from "@reduxjs/toolkit";
 
-const selectedTasks = (state: RootState) => {
+export const selectedTasks = (state: RootState) => {
   return state.tasks.tasks;
 };
 
-const selectSearch = (state: RootState) => {
+export const selectSearch = (state: RootState) => {
   return state.tasks.search;
 };
 export const selectedFilterTasks = createSelector(

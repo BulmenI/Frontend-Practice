@@ -4,7 +4,7 @@ import TaskCard from "./TaskCard";
 import "../styles/column.css";
 import { useDroppable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
-import type { RootState } from "../store/store";
+import { selectedTasks, selectSearch } from "../store/selectors";
 
 type ColumnProps = {
   status: Status;
@@ -12,16 +12,23 @@ type ColumnProps = {
 
 function Column({ status }: ColumnProps) {
   const { setNodeRef } = useDroppable({ id: String(status) });
-  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+
+  const tasks = useSelector(selectedTasks);
+  const search = useSelector(selectSearch);
+
+  const normalizedSearch = search.trim().toLowerCase();
+
+  const columnTasks = tasks.filter((task) => task.status === status);
 
   return (
     <section className="column" ref={setNodeRef}>
-      <h3>{status.toUpperCase()}</h3>
-      {tasks
-        .filter((task) => task.status === status)
-        .map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
+      {columnTasks.map((task) => {
+        const isMatched =
+          normalizedSearch !== "" &&
+          task.name.toLowerCase().includes(normalizedSearch);
+
+        return <TaskCard key={task.id} task={task} isMatched={isMatched} />;
+      })}
     </section>
   );
 }

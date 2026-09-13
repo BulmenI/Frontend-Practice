@@ -15,9 +15,10 @@ import Confirm from "./Confirm";
 
 type TaskCardProps = {
   task: Task;
+  isMatched: boolean;
 };
 
-function TaskCard({ task }: TaskCardProps) {
+function TaskCard({ task, isMatched }: TaskCardProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(task.name);
@@ -62,7 +63,7 @@ function TaskCard({ task }: TaskCardProps) {
     }
   }
   function handleDelete() {
-    setConfirmAction( "delete");
+    setConfirmAction("delete");
   }
 
   async function confirmDelete() {
@@ -75,7 +76,11 @@ function TaskCard({ task }: TaskCardProps) {
   }
 
   return (
-    <article className="task-card" style={style} data-status={task.status}>
+    <article
+      className={`task-card ${isMatched ? "task-card--matched" : ""}`}
+      style={style}
+      data-status={task.status}
+    >
       <span ref={setNodeRef} {...attributes} {...listeners}>
         <HolderOutlined />
       </span>
