@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { getAllTasks } from "../utils/charts/getAllTasks";
 import { getSelectedTasks } from "../utils/charts/getSelectedTasks";
 import { selectedFilterTasks } from "../store/selectors";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Select, DatePicker } from "antd";
 import type { Dayjs } from "dayjs";
 import { getTaskForEndDate } from "../utils/charts/getTasksForEndDate";
 import dayjs from "dayjs";
-import type { Status, Task } from "../types/types";
+import type { Status } from "../types/types";
 import "../styles/graphPage.css";
 
 function Graph() {
@@ -19,9 +19,15 @@ function Graph() {
   // todo Вынести логику
 
   // todo useMemo?
-  const allOption = getAllTasks(taskList);
-  const selectedOption = getSelectedTasks(taskList, selectValue);
-  const endDateOption = getTaskForEndDate(taskList, date, selectStatus);
+  const allOption = useMemo(() => getAllTasks(taskList), [taskList]);
+  const selectedOption = useMemo(
+    () => getSelectedTasks(taskList, selectValue),
+    [taskList, selectValue],
+  );
+  const endDateOption = useMemo(
+    () => getTaskForEndDate(taskList, date, selectStatus),
+    [taskList, date, selectStatus],
+  );
   //todo add more logic for third diagramm
   return (
     <div className="graph-page">

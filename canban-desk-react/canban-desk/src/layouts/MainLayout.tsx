@@ -2,18 +2,21 @@ import { Outlet } from "react-router";
 import { Layout } from "antd";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import "../styles/layout.css";
 
 function MainLayout() {
   return (
-    <Layout>
+    <Layout className="app-layout">
       <Layout.Header>
         <Header />
       </Layout.Header>
-      <main>
+
       <Layout.Content>
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
       </Layout.Content>
-      </main>
+
       <Layout.Footer>
         <Footer />
       </Layout.Footer>

@@ -3,11 +3,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-md);
-
-  padding: var(--space-xl);
-  background: var(--color-bg-surface);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  padding: var(--space-xl) 0;
 }
 
 .confirm-content p {

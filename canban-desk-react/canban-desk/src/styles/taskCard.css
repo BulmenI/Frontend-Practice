@@ -8,6 +8,8 @@
   padding: var(--space-sm);
 
   border-radius: var(--radius-sm);
+
+  transition: box-shadow var(--transition-fast);
 }
 
 .task-card h4,
@@ -20,25 +22,29 @@
   max-width: 100%;
 }
 
-.task-card .delete-btn  {
+.task-card .delete-btn {
   align-self: flex-end;
   width: auto;
   margin-top: auto;
 }
 
 .task-card[data-status="todo"] {
-  background: var(--status-todo);
+  background: var(--color-status-todo);
 }
 
 .task-card[data-status="inProgress"] {
-  background: var(--status-in-progress);
+  background: var(--color-status-in-progress);
 }
 
 .task-card[data-status="done"] {
-  background: var(--status-done);
+  background: var(--color-status-done);
+}
+
+.task-card[data-status="done"] h4,
+.task-card[data-status="done"] p {
   text-decoration: line-through;
 }
 
 .task-card--matched {
-  box-shadow: 0 0 0 3px #1677ff;
+  box-shadow: 0 0 0 3px var(--color-accent);
 }

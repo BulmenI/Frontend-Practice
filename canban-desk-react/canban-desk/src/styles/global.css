@@ -17,6 +17,7 @@
   --font-size-md: 16px;
   --font-size-lg: 20px;
   --font-size-xl: 24px;
+  --font-size-2xl: 32px;
 
   /* Icons */
   --icon-md: 24px;
@@ -29,17 +30,18 @@
   --color-border: #ddd;
   --color-text: #1f1f1f;
   --color-text-secondary: #666;
+  --color-accent: #1677ff;
 
   /* Status */
-  --status-todo: #393a3a7a;
-  --status-in-progress: #efef1882;
-  --status-done: #09ec097a;
-
-  /* Modal */
-  --color-overlay: rgb(0 0 0 / 80%);
+  --color-status-todo: #e5e7eb;
+  --color-status-in-progress: #fef3c7;
+  --color-status-done: #dcfce7;
 
   /* Shadows */
   --shadow-sm: 0 2px 10px rgb(0 0 0 / 10%);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
 }
 
 *,
@@ -52,6 +54,7 @@ html,
 body,
 #root {
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -59,4 +62,3 @@ body {
   color: var(--color-text);
   background: var(--color-bg-page);
 }
-

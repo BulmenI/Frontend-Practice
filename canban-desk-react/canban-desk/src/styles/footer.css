@@ -1,6 +1,6 @@
 .footer {
   display: block;
+  padding: var(--space-md) 0;
   text-align: center;
-  font-size: 15px;
-  padding: 12px 0;
+  font-size: var(--font-size-sm);
 }

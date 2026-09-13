@@ -7,15 +7,16 @@
 .todo-page-title {
   margin: 0 0 var(--space-2xl);
   text-align: center;
-  font-size: 32px;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
 }
 
 .task-management h2,
 .kanban-section h2 {
   margin: 0 0 var(--space-lg);
-  font-size: 24px;
+  font-size: var(--font-size-xl);
 }
+
 .task-management {
   margin-bottom: var(--space-3xl);
 }
@@ -36,17 +37,6 @@
 .task-management-controls > .ant-input-search {
   flex: 1;
   min-width: 0;
-}
-
-.kanban-section {
-  margin-bottom: var(--space-3xl);
-}
-
-.todo {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-xl);
-  align-items: start;
 }
 
 .download-button {
