@@ -22,6 +22,7 @@ function Column({ status }: ColumnProps) {
 
   return (
     <section className="column" ref={setNodeRef}>
+      <h3>{status.toUpperCase()}</h3>
       {columnTasks.map((task) => {
         const isMatched =
           normalizedSearch !== "" &&
