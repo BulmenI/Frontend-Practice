@@ -2,3 +2,8 @@
   margin: 0 0 var(--space-xl);
   text-align: center;
 }
+.download-button {
+  display: block;
+  width: 220px;
+  margin: var(--space-3xl) auto 0;
+}

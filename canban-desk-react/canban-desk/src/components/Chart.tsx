@@ -1,13 +1,13 @@
 import type { EChartsOption } from "echarts";
 import EChartsReact from "echarts-for-react";
+import React from "react";
 
 type ChartProps = {
-    option:EChartsOption;
-}
+  option: EChartsOption;
+};
 
-function Chart({option}:ChartProps) {
-  
+function Chart({ option }: ChartProps) {
   return <EChartsReact option={option} style={{ height: "400px" }} />;
 }
 // todo React.memo() ?
-export default Chart;
+export default React.memo(Chart);
