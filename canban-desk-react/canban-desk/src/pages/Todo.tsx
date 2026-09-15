@@ -1,13 +1,13 @@
 import type { Task } from "../types/types";
 import { useState } from "react";
-import { useIndexedDb, useProfiler } from "../hooks/customHooks";
+import { useProfiler } from "../hooks/customHooks";
 import { Button } from "antd";
 import MainModal from "../components/MainModal";
 import InputValues from "../components/InputValues";
 import SearchInput from "../components/SearchInput";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store/store";
-import { addTask } from "../store/tasksSlice";
+import { addTaskAsync } from "../store/tasksSlice";
 
 import "../styles/todoPage.css";
 
@@ -18,7 +18,6 @@ function Todo() {
 
   const [modalStatus, setModalStatus] = useState(false);
 
-  const { add } = useIndexedDb<Task>();
   const { onRender, downloadProfilerData } = useProfiler();
 
   function isOpen(): void {
@@ -27,9 +26,7 @@ function Todo() {
 
   async function onAdd(task: Task): Promise<void> {
     try {
-      await add(task);
-      console.log("dispatch");
-      dispatch(addTask(task));
+      await dispatch(addTaskAsync(task));
       setModalStatus(false);
     } catch (error: unknown) {
       if (error instanceof Error) console.log(error.message);

@@ -170,6 +170,25 @@ export async function getTask(id: number): Promise<Task | undefined> {
   });
 }
 
+export async function addTask<T>(value: T): Promise<void> {
+    const db = await openDb();
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("todos", "readwrite");
+      const store = transaction.objectStore("todos");
+
+      const request = store.add(value);
+
+      request.onsuccess = () => {
+        resolve();
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
 export async function updateTask(task: Task): Promise<void> {
   const db = await openDb();
 

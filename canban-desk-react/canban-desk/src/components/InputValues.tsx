@@ -56,6 +56,7 @@ function InputValues({ onAdd }: InputProps) {
           showTime
           style={{ width: "100%" }}
           placeholder="Выберите начальную дату"
+          format="DD.MM.YYYY HH:mm"
         />
       </Form.Item>
       <Form.Item
@@ -72,6 +73,7 @@ function InputValues({ onAdd }: InputProps) {
           showTime
           style={{ width: "100%" }}
           placeholder="Выберите конечную дату"
+          format="DD.MM.YYYY HH:mm"
         />
       </Form.Item>
       <Form.Item label="Приоритет" name="priority" initialValue="low">

@@ -1,11 +1,12 @@
 import type { Task, Status } from "../types/types";
-import { createSlice, isFulfilled } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getTask,
   updateTask as updateTaskDb,
   deleteTask as deleteTaskDb,
+  addTask as addTaskDb,
 } from "../hooks/customHooks";
 
 type TasksState = {
@@ -65,6 +66,14 @@ export const moveTask = createAsyncThunk(
     return updateTask;
   },
 );
+export const addTaskAsync = createAsyncThunk(
+  "tasks/addTaskAsync",
+  async (task: Task) => {
+    await addTaskDb(task);
+
+    return task;
+  },
+);
 
 const tasksSlice = createSlice({
   name: "tasks",
@@ -72,10 +81,6 @@ const tasksSlice = createSlice({
   initialState,
 
   reducers: {
-    addTask(state, action: PayloadAction<Task>) {
-      state.tasks.push(action.payload);
-    },
-
     updateTask(state, action: PayloadAction<Task>) {
       const index = state.tasks.findIndex(
         (task) => task.id === action.payload.id,
@@ -114,10 +119,13 @@ const tasksSlice = createSlice({
         if (index === -1) return;
 
         state.tasks[index].status = status;
+      })
+      .addCase(addTaskAsync.fulfilled, (state, action) => {
+        state.tasks.push(action.payload);
       });
   },
 });
 
-export const { addTask, updateTask, setTask, setSearch } = tasksSlice.actions;
+export const { updateTask, setTask, setSearch } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
